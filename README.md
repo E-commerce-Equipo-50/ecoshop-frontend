@@ -11,26 +11,25 @@
 
 - [📖 Sobre el Proyecto](#sobre-el-proyecto)
   - [🛠 Construido con](#construido-con)
-    - [Pila de Tecnologías](#pila-de-tecnologias)
+    - [Pila de Tecnologías](#pila-de-tecnologías)
     - [Características Principales](#caracteristicas-principales)
 - [💻 Empezando](#empezando)
   - [Prerrequisitos](#prerrequisitos)
-  - [Configuración](#configuracion)
-  - [Instalación](#instalacion)
+  - [Configuración](#configuración)
+  - [Instalación](#instalación)
   - [Uso](#uso)
 - [👥 Autores](#autores)
-- [🔭 Futuras Características](#futuras-caracteristicas)
+- [🔭 Futuras Características](#futuras-características)
 - [⭐️ Muestra tu apoyo](#muestra-tu-apoyo)
 - [📝 Licencia](#licencia)
-- [📂Estructura del Proyecto](#structura-del-proyecto)
 
 <!-- Descripcion del Proyecto -->
 
-# 📖 EcoShop <a name="sobre-el-proyecto"></a>
+#  Sobre el Proyecto <a name="sobre-el-proyecto"></a>
 
 **EcoShop** es una plataforma de comercio electrónico diseñada no solo para vender, sino para educar y visibilizar el impacto ambiental de nuestras decisiones de consumo. Conectamos marcas sostenibles con consumidores responsables a través de una experiencia transparente, minimalista y educativa.
 
-## 🛠 Construido con <a name="construido-con"></a>
+## Construido con <a name="construido-con"></a>
 
 
 ### Pila de Tecnologías <a name="pila-de-tecnologias"></a>
@@ -57,7 +56,7 @@
 
 <!-- Empezando -->
 
-## 💻 Empezando <a name="empezando"></a>
+## Empezando <a name="empezando"></a>
 
 Para obtener una copia local y ponerla en funcionamiento, sigue estos pasos sencillos.
 
@@ -106,12 +105,12 @@ Tu proyecto debería mostrarse automáticamente en tu navegador en: http://local
 
 <!-- Autores -->
 
-## 👥 Autores <a name="autores"></a>
+## Autores <a name="autores"></a>
 
 👤 **Dani Morillo**
 
 - GitHub: [@danifromecuador](https://github.com/danifromecuador)
-- Linkedin: [danielfromecuador](https://www.linkedin.com/in/danielfromecuador/)
+- Linkedin: [danielfromec](https://www.linkedin.com/in/danifromec/)
 
 👤 **Agustín Sciammerella**
 
@@ -126,114 +125,38 @@ Tu proyecto debería mostrarse automáticamente en tu navegador en: http://local
 - Github: [@CaroHernz](https://github.com/CaroHernz)
 - Linkedin: [Carolina Hernández](http://linkedin.com/in/carolinahernandezbarra/)
 
-<p align="right">(<a href="#readme-top">volver arriba</a>)</p>
+
 
 <!-- Futuras Características -->
 
-## 🔭 Futuras Características <a name="futuras-caracteristicas"></a>
+##  Futuras Características <a name="futuras-caracteristicas"></a>
 
 - **Eco-Wallet:** Sistema de puntos verdes canjeables por cada compra.
 - **Modo Comparativo:** Comparar el impacto ambiental entre dos productos similares.
 - **Historias de Impacto:** Blog integrado sobre consumo responsable.
 
-<p align="right">(<a href="#readme-top">volver arriba</a>)</p>
+
 
 <!-- CONTRIBUTING -->
 
 
 <!-- Soporte -->
 
-## ⭐️ Muestra tu Apoyo <a name="muestra-tu-apoyo"></a>
+## Muestra tu Apoyo <a name="muestra-tu-apoyo"></a>
 
 Si te gusta este proyecto, ¡dame una estrella en mi [GitHub Repo](https://github.com/E-commerce-Equipo-50/ecoshop-frontend)
 
-<p align="right">(<a href="#readme-top">volver arriba</a>)</p>
+
 
 
 <!-- LICENSE -->
 
-## 📝 Licencia <a name="licencia"></a>
+## Licencia <a name="licencia"></a>
 
-Este proyecto está bajo licencia [MIT](./MIT).
+Este proyecto está bajo licencia [MIT](./LICENSE).
 
-<p align="right">(<a href="#readme-top">VOlver arriba</a>)</p>
 
-<!-- Estructura del Proyecto -->
 
-## 📂 Estructura del Proyecto <a name="estructura-del-proyecto"></a>
 
-- eco-shop-frontend/
-  - index.html
-  - package.json
-  - vite.config.ts
-  - tsconfig.json
-  - tailwind.config.js
-  - postcss.config.cjs
-  - .env.example
-  - .eslintrc.cjs
-  - .gitignore
-  - public/
-    - favicon.svg
-  - src/
-    - main.tsx
-    - styles/
-      - globals.css
-    - app/
-      - App.tsx
-      - routes.tsx
-    - pages/
-      - Home/
-        - index.tsx
-      - Products/
-        - index.tsx
-      - ProductDetail/
-        - index.tsx
-      - Cart/
-        - index.tsx
-      - Checkout/
-        - index.tsx
-      - Admin/
-        - index.tsx
-    - components/
-      - common/
-        - Button.tsx
-        - Input.tsx
-      - product/
-        - ProductCard.tsx
-      - eco/
-        - EcoBadge.tsx
-        - ImpactBar.tsx
-    - features/
-      - catalog/
-        - hooks.ts
-        - utils.ts
-      - cart/
-        - selectors.ts
-      - admin/
-        - productForm.tsx
-    - store/
-      - cart.ts
-      - auth.ts
-    - lib/
-      - api/
-        - client.ts
-        - products.ts
-        - orders.ts
-        - types.ts
-      - hooks/
-        - useTheme.ts
-      - utils/
-        - money.ts
-        - eco.ts
-      - config.ts
-    - assets/
-      - images/
-    - tests/
-      - components/
-        - ProductCard.test.tsx
-  - .github/
-    - workflows/
-      - ci.yml
-  - README.md
 
 
