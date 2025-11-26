@@ -1,17 +1,31 @@
 export function AdminRegister() { 
   return (
     <>
+        {/* CONTENEDOR PRINCIPAL (Fondo Claro)
+          - min-h-screen: Ocupa toda la altura de la pantalla
+          - bg-gray-50: Color de fondo gris muy claro (casi blanco)
+          - flex ... center: Centra el contenido vertical y horizontalmente
+        */}
+
       <div className="flex min-h-screen flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gray-50">
         
+        {/* TÍTULO (Fuera de la tarjeta) */}
         <div className="sm:mx-auto sm:w-full sm:max-w-md mb-6">
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Únete a EcoShop
           </h2>
         </div>
 
+        {/* TARJETA OSCURA (Donde va el formulario) 
+          - bg-gray-900: Fondo oscuro
+          - shadow-2xl: Sombra profunda para efecto flotante
+          - rounded-xl: Bordes redondeados
+        */}
+
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-gray-900 py-8 px-4 shadow-2xl sm:rounded-xl sm:px-10 border border-gray-700">
             
+            {/* LOGO */}
             <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-6">
               <img
                 alt="EcoShop Logo"
@@ -20,6 +34,8 @@ export function AdminRegister() {
               />
             </div>
 
+
+            {/* FORMULARIO */}
             <form action="#" method="POST" className="space-y-6">
               
               {/* CAMPO: NOMBRE */}
@@ -43,7 +59,7 @@ export function AdminRegister() {
               {/* CAMPO: EMAIL */}
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-200">
-                  Correo de la organización
+                  Correo de la organización 
                 </label>
                 <div className="mt-2">
                   <input
@@ -89,10 +105,9 @@ export function AdminRegister() {
               </div>
             </form>
 
-            {/* 👇 AQUÍ AGREGUÉ EL LINK DE INICIO DE SESIÓN 👇 */}
+            {/* LINK DE INICIO DE SESIÓN */}
             <p className="mt-10 text-center text-sm text-gray-400">
               ¿Ya tienes cuenta?{' '}
-              {/* Si usas Link de react-router-dom, cambia 'a' por 'Link' y 'href' por 'to' */}
               <a href="/login" className="font-semibold leading-6 text-[--primary-medium] hover:text-[--primary-light] transition-colors">
                 Inicia sesión {/* El link debe llevarte al AdminLogin */}
               </a>
