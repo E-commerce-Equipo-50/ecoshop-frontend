@@ -1,29 +1,17 @@
 export function AdminRegister() { 
   return (
     <>
-      {/* CONTENEDOR PRINCIPAL (Fondo Claro)
-        - min-h-screen: Ocupa toda la altura de la pantalla
-        - bg-gray-50: Color de fondo gris muy claro (casi blanco)
-        - flex ... center: Centra el contenido vertical y horizontalmente
-      */}
       <div className="flex min-h-screen flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gray-50">
         
-        {/* TÍTULO (Fuera de la tarjeta) */}
         <div className="sm:mx-auto sm:w-full sm:max-w-md mb-6">
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Únete a EcoShop
           </h2>
         </div>
 
-        {/* TARJETA OSCURA (Donde va el formulario) 
-          - bg-gray-900: Fondo oscuro
-          - shadow-2xl: Sombra profunda para efecto flotante
-          - rounded-xl: Bordes redondeados
-        */}
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-gray-900 py-8 px-4 shadow-2xl sm:rounded-xl sm:px-10 border border-gray-700">
             
-            {/* LOGO */}
             <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-6">
               <img
                 alt="EcoShop Logo"
@@ -32,7 +20,6 @@ export function AdminRegister() {
               />
             </div>
 
-            {/* FORMULARIO */}
             <form action="#" method="POST" className="space-y-6">
               
               {/* CAMPO: NOMBRE */}
@@ -47,7 +34,7 @@ export function AdminRegister() {
                     type="text"
                     placeholder="Nombre"
                     required
-                    autoComplete="organization"
+                    autoComplete="name"
                     className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-green-500 sm:text-sm sm:leading-6 pl-2"
                   />
                 </div>
@@ -77,7 +64,6 @@ export function AdminRegister() {
                   <label htmlFor="password" className="block text-sm font-medium text-gray-200">
                     Contraseña
                   </label>
-                  
                 </div>
                 <div className="mt-2">
                   <input
@@ -86,7 +72,7 @@ export function AdminRegister() {
                     type="password"
                     placeholder="Contraseña"
                     required
-                    autoComplete="current-password"
+                    autoComplete="new-password"
                     className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-green-500 sm:text-sm sm:leading-6 pl-2"
                   />
                 </div>
@@ -102,6 +88,15 @@ export function AdminRegister() {
                 </button>
               </div>
             </form>
+
+            {/* 👇 AQUÍ AGREGUÉ EL LINK DE INICIO DE SESIÓN 👇 */}
+            <p className="mt-10 text-center text-sm text-gray-400">
+              ¿Ya tienes cuenta?{' '}
+              {/* Si usas Link de react-router-dom, cambia 'a' por 'Link' y 'href' por 'to' */}
+              <a href="/login" className="font-semibold leading-6 text-[--primary-medium] hover:text-[--primary-light] transition-colors">
+                Inicia sesión {/* El link debe llevarte al AdminLogin */}
+              </a>
+            </p>
 
           </div>
         </div>
