@@ -77,12 +77,7 @@ export function AdminRegister() {
                   <label htmlFor="password" className="block text-sm font-medium text-gray-200">
                     Contraseña
                   </label>
-                  <div className="text-sm">
-                    {/* Enlace con tu color verde personalizado */}
-                    <a href="#" className="font-semibold text-[--primary-medium] hover:text-[--primary-light]">
-                      ¿Olvidaste la Contraseña?
-                    </a>
-                  </div>
+                  
                 </div>
                 <div className="mt-2">
                   <input
