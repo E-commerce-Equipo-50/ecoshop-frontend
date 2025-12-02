@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -9,29 +9,29 @@
   --primary-light: #95c123;
   --primary-medium: #62942a;
   --primary-dark: #5a7025;
-  --secondary-dark: #344C11;
-  --secondary-darker: #1A2902;
-  --white: #FFFFFF;
-  --off-white: #F9F9F9;
+  --secondary-dark: #344c11;
+  --secondary-darker: #1a2902;
+  --white: #ffffff;
+  --off-white: #f9f9f9;
   --text-dark: #333333;
   --text-light: #666666;
-  --border-light: #E8E8E8;
-  
+  --border-light: #e8e8e8;
+
   /* Tipografía */
   --font-title: "Open Sans", sans-serif;
   --font-text: "Montserrat", sans-serif;
-  
+
   /* Espaciado */
   --space-xs: 0.5rem;
   --space-sm: 1rem;
   --space-md: 1.5rem;
   --space-lg: 2rem;
   --space-xl: 3rem;
-  
+
   /* Bordes */
   --border-radius: 8px;
   --border-radius-lg: 12px;
-  
+
   /* Sombras */
   --shadow-sm: 0 2px 4px rgba(26, 41, 2, 0.1);
   --shadow-md: 0 4px 8px rgba(26, 41, 2, 0.15);
