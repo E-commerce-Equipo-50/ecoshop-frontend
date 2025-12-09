@@ -143,7 +143,7 @@ export default function Navbar() {
                 {cartCount}
               </span>
             </Link>
-            
+
             {/* Usuario */}
             <div className="hidden lg:block relative" ref={userMenuRef}>
               <button
@@ -227,12 +227,11 @@ export default function Navbar() {
                     </Link>
                   ))}
 
-
                   <div className="my-3 border-t"></div>
-
                   <p className="text-[var(--text-light)] text-sm mb-2">
                     Crear cuenta
                   </p>
+
                   {registerLinks.map((item) => (
                     <Link
                       key={item.label}
@@ -242,6 +241,18 @@ export default function Navbar() {
                       {item.label}
                     </Link>
                   ))}
+                  <div className="mt-6 border-t pt-4">
+                    <p className="text-[var(--text-light)] text-sm mb-2">
+                      Carrito
+                    </p>
+                    <Link
+                      to="/cart"
+                      onClick={() => setMobileOpen(false)}
+                      className="focus-ring block text-[var(--text-dark)] active:font-semibold p-4 transition"
+                    >
+                      Ver carrito ({cartCount})
+                    </Link>
+                  </div>
 
                 </div>
               </nav>
