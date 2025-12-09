@@ -1,12 +1,8 @@
 import { useState } from 'react';
-// 1. IMPORTANTE: Importar BrowserRouter
-import { BrowserRouter } from 'react-router-dom';
+import CartItem from './CartItem';
+import CartSummary from './CartSummary';
 
-import CartItem from './components/cart/CartItem';
-import CartSummary from './components/cart/CartSummary';
-
-export const App = () => {
-  // Estado inicial con 2 productos de ejemplo
+export const CartMain = () => {
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
@@ -14,8 +10,7 @@ export const App = () => {
       color: 'Rojo Escarlata / 42',
       price: 85.0,
       quantity: 1,
-      image:
-        'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=200',
+      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=200',
       inStock: true,
     },
     {
@@ -24,26 +19,22 @@ export const App = () => {
       color: 'Blanco',
       price: 25.5,
       quantity: 1,
-      image:
-        'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&q=80&w=200',
+      image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&q=80&w=200',
       inStock: false,
     },
   ]);
 
-
-  // Handler para cambiar cantidad
   const handleQuantityChange = (id, newQuantity) => {
     setCartItems((prev) =>
       prev.map((p) => (p.id === id ? { ...p, quantity: Number(newQuantity) } : p))
     );
   };
 
-  // Handler para eliminar item
   const handleRemove = (id) => {
     setCartItems((prev) => prev.filter((p) => p.id !== id));
   };
 
-  // Ejemplo: agregar producto (simula agregar desde catálogo)
+  // Agregar función de prueba
   const addSampleProduct = () => {
     const nextId = cartItems.length ? Math.max(...cartItems.map((p) => p.id)) + 1 : 1;
     const newProduct = {
@@ -52,42 +43,34 @@ export const App = () => {
       color: 'Color de prueba',
       price: parseFloat((Math.random() * 100 + 5).toFixed(2)),
       quantity: 1,
-      image:
-        'https://images.unsplash.com/photo-1514995669114-a43c6fbf9b4c?auto=format&fit=crop&q=80&w=200',
-      inStock: Math.random() > 0.3, // 70% probabilidad de estar en stock
+      image: 'https://images.unsplash.com/photo-1514995669114-a43c6fbf9b4c?auto=format&fit=crop&q=80&w=200',
+      inStock: Math.random() > 0.3,
     };
     setCartItems((prev) => [...prev, newProduct]);
   };
 
   return (
-    // 2. IMPORTANTE: Envolver todo en BrowserRouter para que funcionen los <Link>
-    <BrowserRouter>
-      <div className="bg-gray-100 min-h-screen p-8">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-[var(--text-dark)]">
-              Laboratorio de Pruebas: Carrito 🛒
-            </h1>
-            <p className="text-[var(--text-light)] mt-2">Verificando componentes aislados</p>
-          </div>
+    <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl mx-auto lg:max-w-4xl">
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-8">Carrito de compras</h1>
 
-          {/* PRUEBA 1: CartItem */}
-          <section className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4 border-b pb-2">1. Componente CartItem</h2>
+        {/* Botón de prueba */}
+        <div className="mb-6">
+          <button
+            onClick={addSampleProduct}
+            className="rounded bg-[var(--primary-medium)] hover:bg-[var(--primary-light)] duration-200 px-4 py-2 text-white"
+          >
+            Agregar producto de prueba
+          </button>
+          <span className="text-sm text-[var(--text-light)] self-center">
+            (Los productos sin stock no se cuentan en el resumen)
+          </span>
+        </div>
 
-            <div className="mb-4 flex gap-2">
-              <button
-                onClick={addSampleProduct}
-                className="rounded bg-[var(--primary-medium)] hover:bg-[var(--primary-light)] duration-200 px-3 py-1 text-white"
-              >
-                Agregar producto de prueba
-              </button>
-              <span className="text-sm text-[var(--text-light)] self-center">
-                (Los productos sin stock no se cuentan en el resumen)
-              </span>
-            </div>
-
-            <ul className="divide-y divide-gray-200">
+        <div className="lg:grid lg:grid-cols-12 lg:gap-x-12">
+          {/* Items */}
+          <div className="lg:col-span-7">
+            <ul className="divide-y divide-gray-200 border border-gray-200 rounded-lg">
               {cartItems.map((p) => (
                 <CartItem
                   key={p.id}
@@ -97,26 +80,15 @@ export const App = () => {
                 />
               ))}
               {cartItems.length === 0 && (
-                <li className="py-4 text-center text-[var(--text-light)]">El carrito está vacío</li>
+                <li className="py-8 text-center text-gray-500">El carrito está vacío</li>
               )}
             </ul>
-          </section>
+          </div>
 
-
-          {/* PRUEBA 2: CartSummary */}
-          <section className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4 border-b pb-2">2. Componente CartSummary</h2>
-            <div className="flex justify-center">
-              <div className="w-full max-w-md">
-                {/* Pasamos los items completos y CartSummary calcula subtotal ignorando sin stock */}
-                <CartSummary items={cartItems} />
-              </div>
-            </div>
-          </section>
+          {/* Summary */}
+          <CartSummary items={cartItems} />
         </div>
       </div>
-    </BrowserRouter>
+    </div>
   );
 };
-
-export default App;
