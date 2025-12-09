@@ -72,7 +72,7 @@ const CartSummary = ({ items = [] }) => {
       <div className="mt-6 text-center text-sm">
         <p className="text-[var(--text-light)]">
           o{' '}
-          <Link to="/catalogo" className="font-medium text-[var(--primary-medium)] hover:text-[var(--primary-light)] transition-colors">
+          <Link to="/catalog" className="font-medium text-[var(--primary-medium)] hover:text-[var(--primary-light)] transition-colors">
             Continuar comprando
             <span aria-hidden="true"> &rarr;</span>
           </Link>
