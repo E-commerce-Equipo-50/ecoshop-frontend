@@ -3,7 +3,7 @@ import { Trash2, Leaf } from 'lucide-react';
 
 const CartItem = ({ product, onQuantityChange, onRemove }) => {
   return (
-    <li className="flex py-6 sm:py-10">
+    <li className="flex py-6 px-6 sm:py-10 sm:px-10">
       {/* Imagen */}
       <div className="flex-shrink-0">
         <img
