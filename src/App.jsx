@@ -4,10 +4,11 @@ import { Home } from "./pages/Home"
 import { Catalog } from "./pages/Catalog"
 import { Certifications } from "./pages/Certifications"
 import { Brands } from "./pages/Brands"
-import UserLogin from "./pages/auth/UserLogin"
-import UserRegister from "./pages/auth/UserRegister"
 import AdminLogin from "./pages/auth/AdminLogin"
 import AdminRegister from "./pages/auth/AdminRegister"
+import { Cart } from "./pages/Cart"
+import UserLogin from "./pages/auth/UserLogin"
+import UserRegister from "./pages/auth/UserRegister"
 
 export const App = () => {
   return (
@@ -18,6 +19,7 @@ export const App = () => {
         <Route path="/catalog" element={<Catalog />} />
         <Route path="/brands" element={<Brands />} />
         <Route path="/certifications" element={<Certifications />} />
+        <Route path="/cart" element={<Cart />} />
 
         <Route path="/login-client" element={<UserLogin />} />
         <Route path="/register-client" element={<UserRegister />} />
