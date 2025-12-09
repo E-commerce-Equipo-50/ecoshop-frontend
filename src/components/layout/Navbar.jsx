@@ -133,16 +133,17 @@ export default function Navbar() {
             </div>
 
             {/* Carrito */}
-            <button
+            <Link
+              to="/cart"
               aria-label="Carrito"
               className="focus-ring relative text-[var(--text-light)] hover:text-[var(--text-dark)] transition p-2"
             >
               <i className="fa-solid fa-cart-shopping text-lg"></i>
-              {/*Cantidad de Items*/}
               <span className="absolute -top-0 -right-2 text-xs bg-[var(--primary-medium)] text-[var(--white)] rounded-full px-1.5">
                 {cartCount}
               </span>
-            </button>
+            </Link>
+            
             {/* Usuario */}
             <div className="hidden lg:block relative" ref={userMenuRef}>
               <button
@@ -153,6 +154,7 @@ export default function Navbar() {
               >
                 <i className="fa-solid fa-user text-lg"></i>
               </button>
+
 
               {/* Desplegar menu Login*/}
               {userMenuOpen && (
