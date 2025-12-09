@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import logo from "../../assets/home.png";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -12,19 +13,19 @@ export default function Navbar() {
 
   // Datos del menú (evita duplicación)
   const mainLinks = [
-    { label: "Catálogo", href: "#" },
-    { label: "Marcas", href: "#" },
-    { label: "Certificaciones", href: "#" },
+    { label: "Catálogo", to: "/catalog" },
+    { label: "Marcas", to: "/brands" },
+    { label: "Certificaciones", to: "/certifications" },
   ];
 
   const loginLinks = [
-    { label: "Acceder como Cliente", href: "#" },
-    { label: "Acceder como Empresa", href: "#" },
+    { label: "Acceder como Cliente", to: "/login-client" },
+    { label: "Acceder como Empresa", to: "/login-company" },
   ];
 
   const registerLinks = [
-    { label: "Como Cliente", href: "#" },
-    { label: "Como Empresa", href: "#" },
+    { label: "Como Cliente", to: "/register-client" },
+    { label: "Como Empresa", to: "/register-company" },
   ];
 
   // Cierra dropdowns al hacer click fuera
@@ -73,26 +74,28 @@ export default function Navbar() {
           </button>
 
           {/* Logo */}
-          <a
-            href="/"
+          <Link
+            to="/"
             className="focus-ring flex items-center"
             aria-label="Ir al inicio"
           >
             <img src={logo} alt="EcoShop logo" className="h-7 w-auto" />
-          </a>
+          </Link>
+
 
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-8 ml-10 font-medium">
             {mainLinks.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
+                to={item.to}
                 className="focus-ring navbar-link"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </div>
+
 
           {/* Right side */}
           <div className="flex items-center gap-5 ml-auto">
@@ -115,30 +118,32 @@ export default function Navbar() {
                   className="absolute right-0 top-10 w-48 bg-[var(--white)] border border-[var(--border-light)] rounded-lg shadow-md z-40"
                 >
                   {registerLinks.map((item) => (
-                    <a
+                    <Link
                       key={item.label}
-                      href={item.href}
+                      to={item.to}
                       role="menuitem"
                       className="block px-4 py-2 text-[var(--text-dark)] hover:bg-[var(--off-white)]"
                     >
                       {item.label}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               )}
+
             </div>
 
             {/* Carrito */}
-            <button
+            <Link
+              to="/cart"
               aria-label="Carrito"
               className="focus-ring relative text-[var(--text-light)] hover:text-[var(--text-dark)] transition p-2"
             >
               <i className="fa-solid fa-cart-shopping text-lg"></i>
-              {/*Cantidad de Items*/}
               <span className="absolute -top-0 -right-2 text-xs bg-[var(--primary-medium)] text-[var(--white)] rounded-full px-1.5">
                 {cartCount}
               </span>
-            </button>
+            </Link>
+
             {/* Usuario */}
             <div className="hidden lg:block relative" ref={userMenuRef}>
               <button
@@ -150,6 +155,7 @@ export default function Navbar() {
                 <i className="fa-solid fa-user text-lg"></i>
               </button>
 
+
               {/* Desplegar menu Login*/}
               {userMenuOpen && (
                 <div
@@ -157,17 +163,18 @@ export default function Navbar() {
                   className="absolute right-0 top-10 w-56 bg-[var(--white)] border border-[var(--border-light)] rounded-lg shadow-md z-40"
                 >
                   {loginLinks.map((item) => (
-                    <a
+                    <Link
                       key={item.label}
-                      href={item.href}
+                      to={item.to}
                       role="menuitem"
                       className="focus-ring block px-4 py-2 text-[var(--text-dark)] hover:bg-[var(--off-white)]"
                     >
                       {item.label}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               )}
+
             </div>
           </div>
         </div>
@@ -197,13 +204,13 @@ export default function Navbar() {
               {/* Menú móvil reutiliza los mismos arrays */}
               <nav className="flex flex-col" aria-label="Navegación móvil">
                 {mainLinks.map((item) => (
-                  <a
+                  <Link
                     key={item.label}
-                    href={item.href}
+                    to={item.to}
                     className="focus-ring block text-[var(--text-dark)] active:font-semibold p-4 transition"
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 ))}
 
                 <div className="mt-6 border-t pt-4">
@@ -211,36 +218,49 @@ export default function Navbar() {
                     Acceder
                   </p>
                   {loginLinks.map((item) => (
-                    <a
+                    <Link
                       key={item.label}
-                      href={item.href}
+                      to={item.to}
                       className="focus-ring block text-[var(--text-dark)] active:font-semibold p-4 transition"
                     >
                       {item.label}
-                    </a>
+                    </Link>
                   ))}
 
                   <div className="my-3 border-t"></div>
-
                   <p className="text-[var(--text-light)] text-sm mb-2">
                     Crear cuenta
                   </p>
+
                   {registerLinks.map((item) => (
-                    <a
+                    <Link
                       key={item.label}
-                      href={item.href}
+                      to={item.to}
                       className="focus-ring block text-[var(--text-dark)] active:font-semibold p-4 transition"
                     >
                       {item.label}
-                    </a>
+                    </Link>
                   ))}
+                  <div className="mt-6 border-t pt-4">
+                    <p className="text-[var(--text-light)] text-sm mb-2">
+                      Carrito
+                    </p>
+                    <Link
+                      to="/cart"
+                      onClick={() => setMobileOpen(false)}
+                      className="focus-ring block text-[var(--text-dark)] active:font-semibold p-4 transition"
+                    >
+                      Ver carrito ({cartCount})
+                    </Link>
+                  </div>
+
                 </div>
               </nav>
             </div>
           </div>
         )}
       </nav>
-      
+
       {/* Estilos del Navbar */}
       <style jsx>{`
         .navbar-link {
