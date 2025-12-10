@@ -1,14 +1,31 @@
-import { TestComponent } from './store/TestComponent'
+import { Routes, Route } from 'react-router-dom'
+import Navbar from "./components/layout/Navbar"
+import { Home } from "./pages/Home"
+import { Catalog } from "./pages/Catalog"
+import { Certifications } from "./pages/Certifications"
+import { Brands } from "./pages/Brands"
+import AdminLogin from "./pages/auth/AdminLogin"
+import AdminRegister from "./pages/auth/AdminRegister"
+import { Cart } from "./pages/Cart"
+import UserLogin from "./pages/auth/UserLogin"
+import UserRegister from "./pages/auth/UserRegister"
 
 export const App = () => {
   return (
-    <div className='App'>
-      <b> App Component </b>
-       <h1 className="text-green-500 text-4xl">Tailwind v3 funciona 💚</h1>
-      <p>
-        En este componente se incluirán todas las páginas de /src/pages para hacer la mejor app frontend de la historia
-      </p>
-      <TestComponent />
-    </div>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/catalog" element={<Catalog />} />
+        <Route path="/brands" element={<Brands />} />
+        <Route path="/certifications" element={<Certifications />} />
+        <Route path="/cart" element={<Cart />} />
+
+        <Route path="/login-client" element={<UserLogin />} />
+        <Route path="/register-client" element={<UserRegister />} />
+        <Route path="/login-company" element={<AdminLogin />} />
+        <Route path="/register-company" element={<AdminRegister />} />
+      </Routes>
+    </>
   )
 }
