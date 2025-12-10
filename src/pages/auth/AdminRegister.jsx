@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { registerSeller } from '../../lib/api/client';
+import { Link, useNavigate } from 'react-router-dom';
+import { registerSeller } from '../../lib/api';
 
 const AdminRegister = () => {
   const navigate = useNavigate();
