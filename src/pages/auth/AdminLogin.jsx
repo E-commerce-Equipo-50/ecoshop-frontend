@@ -1,4 +1,41 @@
+import { useState } from 'react';
+import { loginSeller } from '../../lib/api/client';
+
 const AdminLogin = () => {
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError('');
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await loginSeller(formData);
+      console.log('Login de vendedor exitoso:', response);
+      
+      // Guardar el token
+      localStorage.setItem('accessToken', response.accessToken);
+      localStorage.setItem('seller', JSON.stringify(response.seller));
+      
+      // Notificar al Navbar del cambio de autenticación
+      window.dispatchEvent(new Event('authChange'));
+      
+      alert(`¡Bienvenido ${response.seller.email}!`);
+      // Aquí podrías redirigir: window.location.href = '/';
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       {/* CONTENEDOR PRINCIPAL (Fondo Claro)
@@ -33,7 +70,14 @@ const AdminLogin = () => {
             </div>
 
             {/* FORMULARIO */}
-            <form action="#" method="POST" className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* MENSAJE DE ERROR */}
+              {error && (
+                <div className="rounded-md bg-red-900/50 border border-red-500 p-3">
+                  <p className="text-sm text-red-200">{error}</p>
+                </div>
+              )}
+              
               {/* CAMPO: EMAIL */}
               <div>
                 <label
@@ -50,6 +94,8 @@ const AdminLogin = () => {
                     placeholder="contacto@empresa.com"
                     required
                     autoComplete="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-[--primary-medium] sm:text-sm sm:leading-6 pl-2"
                   />
                 </div>
@@ -72,7 +118,9 @@ const AdminLogin = () => {
                     type="password"
                     placeholder="..............."
                     required
-                    autoComplete="new-password"
+                    autoComplete="current-password"
+                    value={formData.password}
+                    onChange={handleChange}
                     className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-[--primary-medium] sm:text-sm sm:leading-6 pl-2"
                   />
                 </div>
@@ -82,9 +130,10 @@ const AdminLogin = () => {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-[--primary-medium] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[--primary-light] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[--primary-medium] transition-colors"
+                  disabled={loading}
+                  className="flex w-full justify-center rounded-md bg-[--primary-medium] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[--primary-light] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[--primary-medium] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Iniciar sesión
+                  {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
                 </button>
               </div>
             </form>
