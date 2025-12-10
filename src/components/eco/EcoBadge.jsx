@@ -15,7 +15,7 @@ const colorClasses = {
 
   return (
     <div
-      className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-sm font-medium ${colorClasses[intensity]}`}
+      className={`w-fit inline-flex items-center gap-2 px-3 py-1 rounded-full border text-sm font-medium ${colorClasses[intensity]}`}
       title={description}
     >
       <span>{badge}</span>

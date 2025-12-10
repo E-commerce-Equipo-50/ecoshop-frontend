@@ -7,7 +7,7 @@ export default function ImpactBar({ ecoScore }) {
   //Si el producto no contiene metricas
   if (!co2Metric) {
     return (
-      <div className="p-3 bg-transparent rounded-md text-[var(--text-dark)] text-sm">
+      <div className="text-[var(--text-dark)] text-sm">
         <p>Sin métricas de CO₂ disponibles.</p>
       </div>
     );
@@ -18,7 +18,7 @@ export default function ImpactBar({ ecoScore }) {
 
   return (
     <div>
-      <p className="p-3 bg-transparent rounded-md text-[var(--text-dark)] text-sm">
+      <p className="font-semibold text-[var(--primary-dark)] text-sm">
         ¡Tu compra evita ~{comparisonValue-value}kg de CO2!
       </p>
     </div>

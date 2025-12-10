@@ -100,10 +100,10 @@ function SustainabilityScore({ ecoScore }) {
       <div className="flex flex-col md:flex-row items-center font-[var(--font-title)] justify-between gap-4">
         
         {/* Lado izquierdo: texto */}
-        <div className="flex flex-col">
-          <h2 className="font-bold text-3xl leading-tight">
+        <div className="flex flex-col  justify-between gap-5"> 
+          <h3 className="font-bold text-2xl leading-tight">
             {co2Metric.value} kg CO₂eq
-          </h2>
+          </h3>
           <p className="text-sm text-[var(--text-light)]">
             Huella de carbono estimada
           </p>
