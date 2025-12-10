@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductUploadForm from '../components/seller/ProductUploadForm';
+import ProductEditForm from '../components/seller/ProductEditForm';
+import InventoryTable from '../components/seller/InventoryTable';
 
 const SellerDashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('productos');
   const [sellerData, setSellerData] = useState(null);
+  const [productToEdit, setProductToEdit] = useState(null);
 
   useEffect(() => {
     // Verificar si el vendedor está logueado
@@ -23,6 +26,18 @@ const SellerDashboard = () => {
     localStorage.removeItem('seller');
     window.dispatchEvent(new Event('authChange'));
     navigate('/');
+  };
+
+  // Función para manejar edición desde InventoryTable
+  const handleEditProduct = (product) => {
+    setProductToEdit(product);
+    setActiveTab('productos'); // Cambiar a pestaña de productos
+  };
+
+  // Función para manejar éxito de edición
+  const handleEditSuccess = () => {
+    setProductToEdit(null); // Limpiar producto en edición
+    setActiveTab('inventario'); // Volver a inventario
   };
 
   if (!sellerData) {
@@ -112,23 +127,21 @@ const SellerDashboard = () => {
       {/* CONTENIDO PRINCIPAL */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Tab: Cargar Productos */}
-        {activeTab === 'productos' && (
+        {activeTab === 'productos' && !productToEdit && (
           <ProductUploadForm />
+        )}
+
+        {/* Tab: Editar Producto */}
+        {activeTab === 'productos' && productToEdit && (
+          <ProductEditForm 
+            product={productToEdit} 
+            onEditSuccess={handleEditSuccess}
+          />
         )}
 
         {/* Tab: Gestión de Inventario */}
         {activeTab === 'inventario' && (
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="flex items-center mb-6">
-              <i className="fa-solid fa-warehouse text-green text-2xl mr-3"></i>
-              <h2 className="text-2xl font-bold title-darkgreen">Gestión de Inventario</h2>
-            </div>
-            <div className="text-center py-12 text-gray-500">
-              <i className="fa-solid fa-boxes-stacked text-6xl mb-4 text-gray-300"></i>
-              <p className="text-lg">Tabla de productos y stock</p>
-              <p className="text-sm mt-2">Esta sección se implementará en el siguiente paso</p>
-            </div>
-          </div>
+          <InventoryTable onEditProduct={handleEditProduct} />
         )}
 
         {/* Tab: Métricas */}
