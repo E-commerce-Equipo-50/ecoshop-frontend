@@ -47,7 +47,6 @@ export default function ProductDetail() {
   const product = productResponse?.product;
   const ecoScore = productResponse?.ecoScore;
 
-
   if (loading) return <div className="p-10 text-center">Cargando...</div>;
   if (error) return <div className="p-10 text-center">Error al cargar.</div>;
   if (!product) return <div className="p-10 text-center">Producto no encontrado.</div>;
@@ -61,12 +60,12 @@ export default function ProductDetail() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
 
           {/* ---------- IMAGEN DEL PRODUCTO ---------- */}
-          <div className="flex items-start ">
+          <div className="w-full max-w-md h-96 lg:h-[32rem] flex justify-center items-center overflow-hidden rounded-xl border border-[var(--border-light)] shadow-sm bg-[var(--white)]">
             <img
               //src={product.imageUrl}
               src={urlImagenProducto}
               alt={product.name}
-              className="rounded-xl shadow-sm border border-[var(--border-light)] w-full h-3/4 object-cover"
+              className="w-full h-full object-cover"
             />
           </div>
 
@@ -79,7 +78,7 @@ export default function ProductDetail() {
             </p>
 
             {/* Nombre */}
-            <h1 className="text-3xl font-bold text-[var(--text-dark)] leading-snug">
+            <h1 className="text-4xl font-bold-[var(--text-title)] text-[var(--text-dark)] leading-snug">
               {product.name}
             </h1>
 
@@ -92,52 +91,101 @@ export default function ProductDetail() {
             </p>
 
             {/* Descripción */}
-            <p className="text-[var(--text-light)] leading-relaxed">
+            <p className="text-[var(--text-light)] leading-relaxed my-6">
               {product.description}
             </p>
 
             <hr className="border border-[var(--border-light)] mt-8" />
-
-            {/* ---------- IMPACTO AMBIENTAL ---------- */}
-              <ImpactBar ecoScore={ecoScore} />
             
-            {/* Botón Agregar al carrito */}
-            <button
-              className=" bg-[var(--primary-medium)] hover:bg-[var(--primary-dark)] text-white py-3 rounded-lg font-semibold transition shadow-sm"
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                // Acá vas a integrar con tu lógica de carrito
+                // ejemplo futuro: addToCart(product, quantity)
+              }}
+              className="flex flex-col mt-4  gap-4"
+              aria-label="Agregar producto al carrito"
             >
-              Agregar al carrito
-            </button>
+              {/* Campo de cantidad */}
+              <div className="flex items-center">
+                <label 
+                  htmlFor="product-quantity" 
+                  className="text-sm text-[var(--text-light)] mr-4"
+                >
+                  Cantidad
+                </label>
+
+                <input
+                  id="product-quantity"
+                  type="number"
+                  inputMode="numeric"
+                  min="1"
+                  defaultValue="1"
+                  aria-label="Cantidad a agregar al carrito"
+                  className="w-20 border border-[var(--border-light)] rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-medium)]"
+                />
+              </div>
+
+              <ImpactBar ecoScore={ecoScore} />
+
+              {/* Botón */}
+              <button
+                type="submit"
+                className="bg-[var(--primary-medium)] hover:bg-[var(--primary-dark)] text-white py-3 px-6 rounded-lg font-semibold transition shadow-sm"
+              >
+                Agregar al carrito
+              </button>
+            </form>
+
+            
           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row my-4 justify-between gap-6 ">
-          <div>
 
-            {/* Detalles */}
-            <div className="text-sm flex flex-col gap-1">
-              <h3 className="font-semibold mb-6 text-lg text-[var(--text-dark)] border-b-4 border-[var(--primary-medium)]">
-                Detalles del producto
-              </h3>
-              <p><strong>Categoría:</strong> {product.category}</p>
-              <p><strong>Origen:</strong> {product.originCountry}</p>
-              <p><strong>Materiales:</strong> {product.materials}</p>
-              <p><strong>Stock disponible:</strong> {product.stock}</p>
-            </div>
+        {/* ---------- DETALLES DEL PRODUCTO ---------- */}
+<section className="bg-[var(--off-white)] p-6 ">
+  <h3 className="text-xl font-semibold text-[var(--primary-dark)] mb-4 flex items-center gap-2">
+    Detalles del producto
+  </h3>
 
-            {/* ---------- CERTIFICACIONES ---------- */}
-            <section className="mt-16">
-              {/* <CertificationList certifications={product.certifications || []} /> */}
-              <CertificationList certifications={certifications} />
-            </section>
-          </div>
-          
+  <div className="grid grid-cols-1 gap-2 text-gray-700 text-sm">
+    <p>
+      <span className="font-medium text-gray-900">Categoría:</span>{" "}
+      {product.category}
+    </p>
+    <p>
+      <span className="font-medium text-gray-900">Origen:</span>{" "}
+      {product.originCountry}
+    </p>
+    <p>
+      <span className="font-medium text-gray-900">Materiales:</span>{" "}
+      {product.materials}
+    </p>
+    <p>
+      <span className="font-medium text-gray-900">Stock disponible:</span>{" "}
+      {product.stock}
+    </p>
+  </div>
+</section>
 
 
-          {/* ---------- GRÁFICO DE SOSTENIBILIDAD ---------- */}
-          <section className="my-2 flex justify-center">
-            <SustainabilityScore ecoScore={ecoScore} />
-          </section>
-        </div>
+
+{/* ---------- CERTIFICACIONES ---------- */}
+<section className="my-10 px-6">
+  {/* <CertificationList certifications={product.certifications || []} /> */}
+  <CertificationList certifications={certifications} />
+</section>
+
+
+
+{/* ---------- GRÁFICO DE SOSTENIBILIDAD ---------- */}
+<section className="mt-20 ">
+
+    <SustainabilityScore ecoScore={ecoScore} />
+
+</section>
+
+
 
       </main>
 
