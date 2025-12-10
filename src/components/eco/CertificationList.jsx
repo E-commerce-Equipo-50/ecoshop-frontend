@@ -9,7 +9,7 @@ if (!certifications || certifications.length === 0) {
 
   return (
     <div className="mt-4">
-      <h3 className="font-semibold mb-3 text-lg text-[var(--text-dark)]">
+      <h3 className="font-semibold mb-6 text-lg text-[var(--text-dark)] border-b-4 border-[var(--primary-medium)]">
         Certificaciones
       </h3>
 
@@ -19,12 +19,11 @@ if (!certifications || certifications.length === 0) {
             key={cert.id} 
             className="flex flex-col items-center w-24"
           >
-            {/* Círculo con el icono */}
+            {/* Icono */}
             <div className="
-              w-16 h-16 rounded-full 
-              border border-[var(--primary-medium)]
+              w-20 h-20
               flex items-center justify-center 
-              p-3 bg-white shadow-sm
+               bg-white
             ">
               <img 
                 src={cert.iconUrl} 

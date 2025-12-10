@@ -9,6 +9,7 @@ import AdminRegister from "./pages/auth/AdminRegister"
 import { Cart } from "./pages/Cart"
 import UserLogin from "./pages/auth/UserLogin"
 import UserRegister from "./pages/auth/UserRegister"
+import ProductDetail from "./pages/ProductDetail"
 
 export const App = () => {
   return (
@@ -25,6 +26,8 @@ export const App = () => {
         <Route path="/register-client" element={<UserRegister />} />
         <Route path="/login-company" element={<AdminLogin />} />
         <Route path="/register-company" element={<AdminRegister />} />
+
+        <Route path="/product/:id" element={<ProductDetail />} />
       </Routes>
     </>
   )
