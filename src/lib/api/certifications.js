@@ -48,3 +48,31 @@ export const createCertification = async (certificationData) => {
     throw error;
   }
 };
+
+/**
+ * Obtener certificaciones de un producto
+ * @param {string|number} productId - ID del producto
+ * @returns {Promise<Array>} Lista de certificaciones del producto
+ */
+export const getProductCertifications = async (productId) => {
+  try {
+    if (!productId) {
+      throw new Error('El ID del producto es requerido');
+    }
+
+    const response = await fetch(`${API_BASE_URL}/certificaciones/${productId}`, {
+      method: 'GET',
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || `Error ${response.status}: ${response.statusText}`);
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error al obtener certificaciones del producto:', error);
+    throw error;
+  }
+};
