@@ -1,15 +1,49 @@
 import { useState, useEffect, useRef } from "react";
 import logo from "../../assets/home.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import SearchBar from "../common/SearchBar";
 
 export default function Navbar() {
+  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [createMenuOpen, setCreateMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(4);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const userMenuRef = useRef(null);
   const createMenuRef = useRef(null);
+
+  // Verificar si hay sesión activa
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem('accessToken');
+      setIsLoggedIn(!!token);
+    };
+    
+    // Verificar al cargar
+    checkAuth();
+    
+    // Escuchar cambios en localStorage (para cuando se hace login/logout)
+    window.addEventListener('storage', checkAuth);
+    // Evento custom para actualizar sin recargar página
+    window.addEventListener('authChange', checkAuth);
+    
+    return () => {
+      window.removeEventListener('storage', checkAuth);
+      window.removeEventListener('authChange', checkAuth);
+    };
+  }, []);
+
+  // Función para cerrar sesión
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('user');
+    localStorage.removeItem('seller');
+    setIsLoggedIn(false);
+    setUserMenuOpen(false);
+    navigate('/');
+  };
 
   // Datos del menú (evita duplicación)
   const mainLinks = [
@@ -100,8 +134,15 @@ export default function Navbar() {
           {/* Right side */}
           <div className="flex items-center gap-5 ml-auto">
 
-            {/* Crea cuenta */}
-            <div className="hidden lg:block relative" ref={createMenuRef}>
+            {/* Buscador si hay sesión, Crear cuenta si no hay sesión */}
+            {isLoggedIn ? (
+              // Usuario logueado → Mostrar buscador
+              <div className="hidden lg:block">
+                <SearchBar />
+              </div>
+            ) : (
+              // Usuario NO logueado → Mostrar botón Crear cuenta
+              <div className="hidden lg:block relative" ref={createMenuRef}>
               <button
                 className="focus-ring navbar-btn-signup"
                 aria-haspopup="true"
@@ -130,7 +171,8 @@ export default function Navbar() {
                 </div>
               )}
 
-            </div>
+              </div>
+            )}
 
             {/* Carrito */}
             <Link
@@ -156,22 +198,34 @@ export default function Navbar() {
               </button>
 
 
-              {/* Desplegar menu Login*/}
+              {/* Desplegar menu Login o Logout*/}
               {userMenuOpen && (
                 <div
                   role="menu"
                   className="absolute right-0 top-10 w-56 bg-[var(--white)] border border-[var(--border-light)] rounded-lg shadow-md z-40"
                 >
-                  {loginLinks.map((item) => (
-                    <Link
-                      key={item.label}
-                      to={item.to}
+                  {isLoggedIn ? (
+                    // Usuario logueado - Mostrar solo Cerrar sesión
+                    <button
+                      onClick={handleLogout}
                       role="menuitem"
-                      className="focus-ring block px-4 py-2 text-[var(--text-dark)] hover:bg-[var(--off-white)]"
+                      className="focus-ring w-full text-left block px-4 py-2 text-[var(--text-dark)] hover:bg-[var(--off-white)]"
                     >
-                      {item.label}
-                    </Link>
-                  ))}
+                      Cerrar sesión
+                    </button>
+                  ) : (
+                    // Usuario NO logueado - Mostrar opciones de login
+                    loginLinks.map((item) => (
+                      <Link
+                        key={item.label}
+                        to={item.to}
+                        role="menuitem"
+                        className="focus-ring block px-4 py-2 text-[var(--text-dark)] hover:bg-[var(--off-white)]"
+                      >
+                        {item.label}
+                      </Link>
+                    ))
+                  )}
                 </div>
               )}
 
@@ -214,33 +268,51 @@ export default function Navbar() {
                 ))}
 
                 <div className="mt-6 border-t pt-4">
-                  <p className="text-[var(--text-light)] text-sm mb-2">
-                    Acceder
-                  </p>
-                  {loginLinks.map((item) => (
-                    <Link
-                      key={item.label}
-                      to={item.to}
-                      className="focus-ring block text-[var(--text-dark)] active:font-semibold p-4 transition"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
+                  {isLoggedIn ? (
+                    // Usuario logueado - Solo mostrar cerrar sesión
+                    <>
+                      <p className="text-[var(--text-light)] text-sm mb-2">
+                        Sesión
+                      </p>
+                      <button
+                        onClick={handleLogout}
+                        className="focus-ring block text-[var(--text-dark)] active:font-semibold p-4 transition w-full text-left"
+                      >
+                        Cerrar sesión
+                      </button>
+                    </>
+                  ) : (
+                    // Usuario NO logueado - Mostrar login y registro
+                    <>
+                      <p className="text-[var(--text-light)] text-sm mb-2">
+                        Acceder
+                      </p>
+                      {loginLinks.map((item) => (
+                        <Link
+                          key={item.label}
+                          to={item.to}
+                          className="focus-ring block text-[var(--text-dark)] active:font-semibold p-4 transition"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
 
-                  <div className="my-3 border-t"></div>
-                  <p className="text-[var(--text-light)] text-sm mb-2">
-                    Crear cuenta
-                  </p>
+                      <div className="my-3 border-t"></div>
+                      <p className="text-[var(--text-light)] text-sm mb-2">
+                        Crear cuenta
+                      </p>
 
-                  {registerLinks.map((item) => (
-                    <Link
-                      key={item.label}
-                      to={item.to}
-                      className="focus-ring block text-[var(--text-dark)] active:font-semibold p-4 transition"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
+                      {registerLinks.map((item) => (
+                        <Link
+                          key={item.label}
+                          to={item.to}
+                          className="focus-ring block text-[var(--text-dark)] active:font-semibold p-4 transition"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </>
+                  )}
                   <div className="mt-6 border-t pt-4">
                     <p className="text-[var(--text-light)] text-sm mb-2">
                       Carrito
