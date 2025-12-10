@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from "./components/layout/Navbar"
 import { Home } from "./pages/Home"
 import { Catalog } from "./pages/Catalog"
@@ -8,12 +8,16 @@ import AdminRegister from "./pages/auth/AdminRegister"
 import { Cart } from "./pages/Cart"
 import UserLogin from "./pages/auth/UserLogin"
 import UserRegister from "./pages/auth/UserRegister"
-import VistaMarca from './pages/VistaMarca' 
+import VistaMarca from './pages/VistaMarca'
+import SellerDashboard from './pages/SellerDashboard'
 
 export const App = () => {
+  const location = useLocation();
+  const hideNavbar = location.pathname === '/seller-dashboard';
+
   return (
     <>
-      <Navbar />
+      {!hideNavbar && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/catalog" element={<Catalog />} />
@@ -24,6 +28,7 @@ export const App = () => {
         <Route path="/register-client" element={<UserRegister />} />
         <Route path="/login-company" element={<AdminLogin />} />
         <Route path="/register-company" element={<AdminRegister />} />
+        <Route path="/seller-dashboard" element={<SellerDashboard />} />
         
       </Routes>
     </>
