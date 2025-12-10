@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import Navbar from "./components/layout/Navbar"
 import { Home } from "./pages/Home"
-import { Catalog } from "./pages/Catalog"
+import  Catalog  from "./pages/Catalog"
 import { Certifications } from "./pages/Certifications"
 import AdminLogin from "./pages/auth/AdminLogin"
 import AdminRegister from "./pages/auth/AdminRegister"
