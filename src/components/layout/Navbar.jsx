@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import logo from "../../assets/home.png";
 import { Link, useNavigate } from "react-router-dom";
 import SearchBar from "../common/SearchBar";
+import "./Navbar.css";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -332,49 +333,6 @@ export default function Navbar() {
           </div>
         )}
       </nav>
-
-      {/* Estilos del Navbar */}
-      <style jsx>{`
-        .navbar-link {
-          color: var(--text-light);
-          padding: 18px var(--space-xs);
-          transition: 0.3s ease;
-          border-bottom: 3px solid transparent;
-        }
-
-        .navbar-link:hover {
-          color: var(--text-dark);
-          background-color: var(--off-white);
-        }
-
-        .navbar-link:focus {
-          border-bottom: 2px solid var(--primary-light);
-          color: var(--text-dark);
-        }
-
-        .navbar-btn-signup {
-          color: var(--text-light);
-          font-weight: 500;
-          border-radius: var(--border-radius);
-          border: 2px solid var(--border-light);
-          padding: var(--space-xs) var(--space-sm);
-          transition: 0.3s ease;
-        }
-
-        .navbar-btn-signup:hover {
-          border: 2px solid var(--primary-light);
-          color: var(--text-dark);
-        }
-
-        .focus-ring {
-          outline: none;
-        }
-
-        .focus-ring:focus-visible {
-          border-radius: var(--border-radius);
-          box-shadow: 0 0 0 1px var(--primary-light);
-        }
-      `}</style>
     </header>
   );
 }
