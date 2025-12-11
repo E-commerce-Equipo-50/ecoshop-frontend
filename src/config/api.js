@@ -30,4 +30,10 @@ export const ENDPOINTS = {
   
   // Certificaciones
   CERTIFICATIONS: '/certificaciones',
+  
+  // Carrito de compras
+  CART_ADD: '/carrito/add',
+  CART_GET: '/carrito',
+  CART_REMOVE: '/carrito/remove',
+  CART_UPDATE: '/carrito/update',
 };
