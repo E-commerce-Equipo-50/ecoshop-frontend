@@ -19,7 +19,8 @@ const ProductEditForm = ({ product, onEditSuccess }) => {
     category: product?.category || '',
     description: product?.description || '',
     originCountry: product?.originCountry || '',
-    materials: product?.materials || ''
+    materials: product?.materials || '',
+    imageUrl: product?.imageUrl || ''
   });
 
   const [loading, setLoading] = useState(false);
@@ -65,7 +66,8 @@ const ProductEditForm = ({ product, onEditSuccess }) => {
         category: formData.category.toUpperCase(),
         description: formData.description,
         originCountry: formData.originCountry,
-        materials: formData.materials
+        materials: formData.materials,
+        imageUrl: formData.imageUrl
       };
 
       // Actualizar producto

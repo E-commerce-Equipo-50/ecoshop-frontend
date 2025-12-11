@@ -15,7 +15,8 @@ const ProductUploadForm = () => {
     category: '',
     description: '',
     originCountry: '',
-    materials: ''
+    materials: '',
+    imageUrl: ''
   });
 
   const [loading, setLoading] = useState(false);
@@ -100,7 +101,8 @@ const ProductUploadForm = () => {
         category: formData.category.toUpperCase(),
         description: formData.description,
         originCountry: formData.originCountry,
-        materials: formData.materials
+        materials: formData.materials,
+        imageUrl: formData.imageUrl
       };
 
       // Crear nuevo producto
@@ -155,7 +157,8 @@ const ProductUploadForm = () => {
         category: '',
         description: '',
         originCountry: '',
-        materials: ''
+        materials: '',
+        imageUrl: ''
       });
       setMetrics([]);
       setSelectedCertifications([]);
