@@ -1,14 +1,54 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Footer } from '../components/layout/Footer';
 import { AlphabetFilter } from '../components/common/AlphabetFilter';
 import { BrandCard } from '../components/brand/BrandCard';
 import { ResultCounter } from '../components/common/ResultCounter';
+import { API_BASE_URL, ENDPOINTS } from '../config/api';
 
 const VistaMarca = () => {
   const [selectedLetter, setSelectedLetter] = useState('Todas');
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Cargar productos del backend
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`${API_BASE_URL}${ENDPOINTS.PRODUCTS}`);
+        const data = await response.json();
+        
+        if (response.ok) {
+          const productsList = data.productos || data.products || [];
+          console.log('📦 Productos del backend:', productsList);
+          console.log('📦 Primer producto:', productsList[0]);
+          setProducts(productsList);
+        } else {
+          console.error('Error al cargar productos:', data.message);
+        }
+      } catch (error) {
+        console.error('Error al cargar productos:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  // Función para contar productos de una marca
+  const contarProductos = (nombreMarca) => {
+    const count = products.filter(p => {
+      // Intentar con diferentes campos posibles
+      const brandField = p.brand || p.marca || p.Brand || p.Marca;
+      return brandField === nombreMarca;
+    }).length;
+    
+    return count;
+  };
   
-  // Datos de marcas de ejemplo
-  const brands = [
+  // Datos de marcas con contador dinámico (se recalcula cuando cambian los productos)
+  const brandsData = useMemo(() => [
     {
       id: 1,
       name: "EcoWear",
@@ -16,7 +56,7 @@ const VistaMarca = () => {
       description: "Moda sostenible con materiales orgánicos certificados.",
       category: "Ropa Ecológica",
       rating: 4.8,
-      productsCount: 156
+      productsCount: contarProductos("EcoWear")
     },
     {
       id: 2,
@@ -25,7 +65,7 @@ const VistaMarca = () => {
       description: "Productos innovadores para hogares sostenibles.",
       category: "Hogar Eco",
       rating: 4.9,
-      productsCount: 234
+      productsCount: contarProductos("GreenHome")
     },
     {
       id: 3,
@@ -34,7 +74,7 @@ const VistaMarca = () => {
       description: "Cosméticos naturales y cruelty-free con ingredientes orgánicos.",
       category: "Belleza Natural",
       rating: 4.7,
-      productsCount: 189
+      productsCount: contarProductos("PureBeauty")
     },
     {
       id: 4,
@@ -43,7 +83,7 @@ const VistaMarca = () => {
       description: "Alimentos orgánicos y locales de productores certificados.",
       category: "Alimentación",
       rating: 4.8,
-      productsCount: 312
+      productsCount: contarProductos("EcoFoods")
     },
     {
       id: 5,
@@ -52,7 +92,7 @@ const VistaMarca = () => {
       description: "Arte y decoración única con materiales reciclados.",
       category: "Arte Sostenible",
       rating: 4.6,
-      productsCount: 98
+      productsCount: contarProductos("RecycleArt")
     },
     {
       id: 6,
@@ -61,7 +101,7 @@ const VistaMarca = () => {
       description: "Productos ecológicos para bebés con materiales naturales.",
       category: "Infantil",
       rating: 4.9,
-      productsCount: 167
+      productsCount: contarProductos("BioBaby")
     },
     {
       id: 7,
@@ -70,7 +110,7 @@ const VistaMarca = () => {
       description: "Herramientas y productos para un jardín eco-friendly.",
       category: "Jardinería",
       rating: 4.7,
-      productsCount: 145
+      productsCount: contarProductos("NatureGarden")
     },
     {
       id: 8,
@@ -79,7 +119,7 @@ const VistaMarca = () => {
       description: "Soluciones de purificación y ahorro de agua ecológicas.",
       category: "Agua Sostenible",
       rating: 4.8,
-      productsCount: 87
+      productsCount: contarProductos("CleanWater")
     },
     {
       id: 9,
@@ -88,7 +128,7 @@ const VistaMarca = () => {
       description: "Tecnología solar y energías renovables para un futuro limpio.",
       category: "Energía Verde",
       rating: 4.9,
-      productsCount: 124
+      productsCount: contarProductos("SolarTech")
     },
     {
       id: 10,
@@ -97,7 +137,7 @@ const VistaMarca = () => {
       description: "Empaques biodegradables y compostables para negocios.",
       category: "Empaques",
       rating: 4.6,
-      productsCount: 203
+      productsCount: contarProductos("EarthPack")
     },
     {
       id: 11,
@@ -106,7 +146,7 @@ const VistaMarca = () => {
       description: "Equipamiento deportivo con materiales reciclados.",
       category: "Deportes",
       rating: 4.7,
-      productsCount: 176
+      productsCount: contarProductos("BioTech Sports")
     },
     {
       id: 12,
@@ -115,14 +155,24 @@ const VistaMarca = () => {
       description: "Muebles artesanales de madera certificada FSC.",
       category: "Muebles",
       rating: 4.8,
-      productsCount: 92
+      productsCount: contarProductos("Artisan Wood")
     }
-  ];
+  ], [products]); // Se recalcula cuando cambian los productos
+
+  // Log para debug después de cargar productos
+  useEffect(() => {
+    if (products.length > 0) {
+      console.log(`✅ Total de productos cargados: ${products.length}`);
+      brandsData.forEach(brand => {
+        console.log(`📊 ${brand.name}: ${brand.productsCount} productos`);
+      });
+    }
+  }, [products, brandsData]);
 
   // Filtrar marcas por letra seleccionada
   const filteredBrands = selectedLetter === 'Todas' 
-    ? brands 
-    : brands.filter(brand => brand.name.toUpperCase().startsWith(selectedLetter));
+    ? brandsData 
+    : brandsData.filter(brand => brand.name.toUpperCase().startsWith(selectedLetter));
 
   return (
     <div className="VistaMarca">
@@ -148,7 +198,7 @@ const VistaMarca = () => {
       <AlphabetFilter
         selectedLetter={selectedLetter}
         onLetterChange={setSelectedLetter}
-        items={brands}
+        items={brandsData}
         nameField="name"
       />
 
@@ -198,13 +248,13 @@ const VistaMarca = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
             <div className="text-center p-6 bg-lightgreen rounded-xl">
               <div className="text-4xl font-bold title-darkgreen mb-2">
-                {brands.length}+
+                {brandsData.length}+
               </div>
               <p className="text-gray-600">Marcas Sostenibles</p>
             </div>
             <div className="text-center p-6 bg-lightgreen rounded-xl">
               <div className="text-4xl font-bold title-darkgreen mb-2">
-                {brands.reduce((sum, brand) => sum + brand.productsCount, 0)}+
+                {brandsData.reduce((sum, brand) => sum + brand.productsCount, 0)}+
               </div>
               <p className="text-gray-600">Productos Eco-Friendly</p>
             </div>
@@ -216,7 +266,7 @@ const VistaMarca = () => {
             </div>
             <div className="text-center p-6 bg-lightgreen rounded-xl">
               <div className="text-4xl font-bold title-darkgreen mb-2">
-                {(brands.reduce((sum, brand) => sum + brand.rating, 0) / brands.length).toFixed(1)}
+                {(brandsData.reduce((sum, brand) => sum + brand.rating, 0) / brandsData.length).toFixed(1)}
               </div>
               <p className="text-gray-600">Rating Promedio</p>
             </div>
