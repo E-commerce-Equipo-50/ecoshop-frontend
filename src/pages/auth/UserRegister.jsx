@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { registerClient } from '../../lib/api/client';
+import { registerClient } from '../../lib/api';
 
 const UserRegister = () => {
   const navigate = useNavigate();

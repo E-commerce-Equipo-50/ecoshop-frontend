@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { loginSeller } from '../../lib/api/client';
+import { Link, useNavigate } from 'react-router-dom';
+import { loginSeller } from '../../lib/api';
 
 const AdminLogin = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -27,8 +29,8 @@ const AdminLogin = () => {
       // Notificar al Navbar del cambio de autenticación
       window.dispatchEvent(new Event('authChange'));
       
-      alert(`¡Bienvenido ${response.seller.email}!`);
-      // Aquí podrías redirigir: window.location.href = '/';
+      // Redirigir al panel de vendedor
+      navigate('/seller-dashboard');
     } catch (err) {
       setError(err.message);
     } finally {
