@@ -16,8 +16,21 @@ const MetricItem = ({ metric, index, onRemove, onEdit }) => {
   ];
 
   const metricInfo = metricTypes.find(m => m.type === metric.type);
-  const reduction = ((1 - metric.value / metric.comparison_value) * 100).toFixed(1);
-  const isPositive = parseFloat(reduction) > 0;
+  
+  // Para RECYCLED, más es mejor (lógica inversa)
+  const isRecycled = metric.type === 'RECYCLED';
+  
+  let reduction, isPositive;
+  
+  if (isRecycled) {
+    // Para reciclado: diferencia absoluta (más claro)
+    reduction = (metric.value - metric.comparison_value).toFixed(1);
+    isPositive = parseFloat(reduction) > 0; // Más reciclado = positivo
+  } else {
+    // Para CO2, agua, energía: menos es mejor
+    reduction = ((1 - metric.value / metric.comparison_value) * 100).toFixed(1);
+    isPositive = parseFloat(reduction) > 0; // Menos contaminación = positivo
+  }
 
   const handleEditChange = (e) => {
     const { name, value } = e.target;
