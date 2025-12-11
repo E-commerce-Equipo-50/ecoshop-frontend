@@ -19,7 +19,7 @@ export default function ImpactBar({ ecoScore }) {
   return (
     <div>
       <p className="font-semibold text-[var(--primary-dark)] text-sm">
-        ¡Tu compra evita ~{comparisonValue-value}kg de CO2!
+        ¡Tu compra evita ~{comparisonValue-value}kg de CO2 por unidad!
       </p>
     </div>
   )
