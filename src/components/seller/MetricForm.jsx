@@ -11,7 +11,7 @@ const MetricForm = ({ metrics, onAdd }) => {
   const [error, setError] = useState('');
 
   const metricTypes = [
-    { type: 'CO2', label: 'Emisiones de CO2', defaultUnit: 'kg CO2e' },
+    { type: 'CO2', label: 'Emisiones de CO2', defaultUnit: 'kg CO2' },
     { type: 'WATER', label: 'Uso de Agua', defaultUnit: 'litros' },
     { type: 'ENERGY', label: 'Consumo de Energía', defaultUnit: 'kWh' },
     { type: 'RECYCLED', label: 'Material Reciclado', defaultUnit: '%' }
@@ -135,7 +135,7 @@ const MetricForm = ({ metrics, onAdd }) => {
             name="unit"
             value={formData.unit}
             onChange={handleChange}
-            placeholder="Ej: kg CO2e"
+            placeholder="Ej: kg CO2"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green focus:border-transparent"
           />
         </div>
