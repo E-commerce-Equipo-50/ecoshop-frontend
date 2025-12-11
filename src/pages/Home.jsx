@@ -283,55 +283,59 @@ const [openCertification, setOpenCertification] = useState(0);
         </div>
       </section>
 
-      {/* Sección: Categorías Destacadas */}
+     
+      {/* Sección: Contenido Educativo */}
       <section className="py-16 bg-lightgreen">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center title-darkgreen mb-12">
-            Categorías Sostenibles
+            Aprende sobre consumo responsable
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+          {/* Grid ajustada a 2 columnas */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+
+            {/* Video 1 */}
             <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="h-48 bg-green flex items-center justify-center">
-                <span className="text-6xl">
-                  <i class="fa-solid fa-shirt"></i>
-                </span>
+              <div className="relative h-56 bg-green flex items-center justify-center">
+                <iframe
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/1Xar55g7PYE"
+                  title="Video sobre consumo responsable"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                ></iframe>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold title-green mb-3">Moda Sostenible</h3>
-                <p className="text-gray-600 mb-4">Ropa orgánica, materiales reciclados y producción ética</p>
-                <a href="#" className="text-green font-semibold hover:text-green-800">
-                  Explorar productos →
-                </a>
+                <h3 className="text-xl font-semibold title-green mb-3">
+                  ¿Qué es el consumo responsable?
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  Conoce cómo tus decisiones al comprar pueden reducir CO₂, ahorrar agua y fomentar prácticas sustentables.
+                </p>
               </div>
             </div>
+
+            {/* Video 2 */}
             <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="h-48 bg-green flex items-center justify-center">
-                <span className="text-6xl">
-                  <i class="fa-solid fa-house"></i>
-                </span>
+              <div className="relative h-56 bg-green flex items-center justify-center">
+                <iframe
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/A5pTU6SFTGY?start=159"
+                  title="Certificaciones ecológicas"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                ></iframe>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold title-green mb-3">Hogar Eco</h3>
-                <p className="text-gray-600 mb-4">Productos para un hogar cero waste y energéticamente eficiente</p>
-                <a href="#" className="text-green font-semibold hover:text-green-800">
-                  Explorar productos →
-                </a>
+                <h3 className="text-xl font-semibold title-green mb-3">
+                  Certificaciones sostenibles
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  Aprende qué significan certificaciones como Fairtrade, GOTS, FSC y otras certificaciones verdes.
+                </p>
               </div>
             </div>
-            <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="h-48 bg-green flex items-center justify-center">
-                <span className="text-6xl">
-                  <i class="fa-solid fa-spray-can-sparkles"></i>
-                </span>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold title-green mb-3">Belleza Natural</h3>
-                <p className="text-gray-600 mb-4">Cosméticos cruelty-free, orgánicos y envases reciclables</p>
-                <a href="#" className="text-green font-semibold hover:text-green-800">
-                  Explorar productos →
-                </a>
-              </div>
-            </div>
+
           </div>
         </div>
       </section>
