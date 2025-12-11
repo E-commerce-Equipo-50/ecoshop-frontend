@@ -178,7 +178,7 @@ export default function ProductDetail() {
 
         </section>
         
-        {/* ---------- RECOMENDACIONES SOSTENIBLES ---------- */}
+        {/* ---------- RECOMEDACIONES SUSTENTABLES ---------- */}
         <EcoRecommendations currentProductId={id} />
 
       </main>

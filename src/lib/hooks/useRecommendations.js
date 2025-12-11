@@ -5,7 +5,7 @@ export const useRecommendations = (allProducts, currentProductId = null) => {
 
     // Excluir el producto actual SOLO si currentProductId existe
     if (currentProductId) {
-    list = list.filter(p => p.product.id !== currentProductId);
+    list = list.filter(p => p.id !== currentProductId);
     }
 
     // Ordenar por score de mayor a menor

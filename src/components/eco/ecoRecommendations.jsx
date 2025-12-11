@@ -2,14 +2,15 @@ import { Link } from "react-router-dom";
 import { ShoppingBag } from "lucide-react";
 import EcoBadge from "../eco/EcoBadge"; // tu componente de badge
 import { useRecommendations } from "../../lib/hooks/useRecommendations";
+import useFetch from "../../lib/hooks/useFetch";
 
 export default function EcoRecommendations({ currentProductId = null }) {
 
     const { data: productsResponse, loading, error } = useFetch(
-    `https://ecoshop-backend-00ta.onrender.com/api/Productos`
+    `https://ecoshop-backend-00ta.onrender.com/api/Productos/`
     );
 
-    const allProducts = productsResponse?.product;
+    const allProducts = productsResponse?.products;
 
     if (loading) return <div className="p-10 text-center">Cargando...</div>;
     if (error) return <div className="p-10 text-center">Error al cargar.</div>;
@@ -24,17 +25,16 @@ export default function EcoRecommendations({ currentProductId = null }) {
     return (
     <section className="mt-16">
         <h2 className="text-lg font-semibold text-[var(--text-dark)] mb-6">
-        Productos más sustentables para vos 🌿
+        Productos sustentables destacados 🌿
         </h2>
-
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 mb-10">
-        {recommendations.map(({ product, ecoScore }) => (
+        {recommendations.map(( product ) => (
             <div
             key={product.id}
             className="group relative bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow border border-[var(--border-light)]"
             >
             {/* IMAGEN */}
-            <div className="aspect-square w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-90 transition-opacity lg:h-64 relative">
+            <div className="aspect-square w-full rounded-md bg-gray-200 group-hover:opacity-90 transition-opacity lg:h-64 relative">
                 <img
                 src={product.imageUrl}
                 alt={product.name}
@@ -42,16 +42,11 @@ export default function EcoRecommendations({ currentProductId = null }) {
                 />
 
                 {/* ecoBadge flotado arriba a la derecha */}
-                <div className="absolute top-2 right-2 z-10">
-                <EcoBadge ecoScore={ecoScore} />
+                <div className="absolute top-1 right-1 z-10 whitespace-nowrap">
+                <EcoBadge ecoScore={product.ecoScore} />
                 </div>
 
-                {/* STOCK BAJO */}
-                {product.stock < 10 && (
-                <span className="absolute bottom-2 left-2 bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded-full">
-                    ¡Últimas unidades!
-                </span>
-                )}
+                
             </div>
 
             {/* INFO PRODUCTO */}
@@ -86,6 +81,7 @@ export default function EcoRecommendations({ currentProductId = null }) {
             </div>
         ))}
         </div>
+        
     </section>
     );
 }
