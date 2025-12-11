@@ -37,9 +37,6 @@ import {Footer} from "../components/layout/Footer";
 export default function ProductDetail() {
  const { id } = useParams(); // Tomamos el ID desde la URL
 
-  const urlImagenProducto = "https://images.unsplash.com/photo-1759572095384-1a7e646d0d4f?q=80&w=1854&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const urlImagenProducto2 = "https://images.unsplash.com/photo-1759572095329-1dcf9522762b?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-
   const { data: productResponse, loading, error } = useFetch(
     `https://ecoshop-backend-00ta.onrender.com/api/Productos/${id}`
   );
@@ -62,8 +59,7 @@ export default function ProductDetail() {
           {/* ---------- IMAGEN DEL PRODUCTO ---------- */}
           <div className="w-full max-w-md h-96 lg:h-[32rem] flex justify-center items-center overflow-hidden rounded-xl border border-[var(--border-light)] shadow-sm bg-[var(--white)]">
             <img
-              //src={product.imageUrl}
-              src={urlImagenProducto}
+              src={product.imageUrl}
               alt={product.name}
               className="w-full h-full object-cover"
             />
