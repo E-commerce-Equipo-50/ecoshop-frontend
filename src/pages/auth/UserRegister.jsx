@@ -165,7 +165,7 @@ const UserRegister = () => {
             <p className="mt-10 text-center text-sm text-gray-400">
               ¿Ya tienes cuenta?{" "}
               <a
-                href="/login"
+                href="/login-client"
                 className="font-semibold leading-6 text-[--primary-medium] hover:text-[--primary-light] transition-colors"
               >
                 Inicia sesión {/* El link debe llevarte al UserLogin */}

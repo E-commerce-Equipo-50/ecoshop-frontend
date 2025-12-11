@@ -144,7 +144,7 @@ const AdminLogin = () => {
             <p className="mt-10 text-center text-sm text-gray-400">
               ¿No tienes cuenta?{" "}
               <a
-                href="/login"
+                href="/register-company"
                 className="font-semibold leading-6 text-[--primary-medium] hover:text-[--primary-light] transition-colors"
               >
                 Regístrate {/* El link debe llevarte al AdminRegister */}
