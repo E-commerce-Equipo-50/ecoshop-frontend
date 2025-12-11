@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import logo from "../../assets/home.png";
 import { Link, useNavigate } from "react-router-dom";
 import SearchBar from "../common/SearchBar";
+import { getCartItemCount } from "../../lib/api/cart";
 import "./Navbar.css";
 
 export default function Navbar() {
@@ -9,17 +10,29 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [createMenuOpen, setCreateMenuOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(4);
+  const [cartCount, setCartCount] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const userMenuRef = useRef(null);
   const createMenuRef = useRef(null);
 
-  // Verificar si hay sesión activa
+  // Función para cargar cantidad del carrito
+  const loadCartCount = async () => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      const count = await getCartItemCount();
+      setCartCount(count);
+    } else {
+      setCartCount(0);
+    }
+  };
+
+  // Verificar si hay sesión activa y cargar carrito
   useEffect(() => {
     const checkAuth = () => {
       const token = localStorage.getItem('accessToken');
       setIsLoggedIn(!!token);
+      loadCartCount();
     };
     
     // Verificar al cargar
@@ -29,10 +42,13 @@ export default function Navbar() {
     window.addEventListener('storage', checkAuth);
     // Evento custom para actualizar sin recargar página
     window.addEventListener('authChange', checkAuth);
+    // Evento custom para actualizar carrito
+    window.addEventListener('cartUpdated', loadCartCount);
     
     return () => {
       window.removeEventListener('storage', checkAuth);
       window.removeEventListener('authChange', checkAuth);
+      window.removeEventListener('cartUpdated', loadCartCount);
     };
   }, []);
 
@@ -42,6 +58,7 @@ export default function Navbar() {
     localStorage.removeItem('user');
     localStorage.removeItem('seller');
     setIsLoggedIn(false);
+    setCartCount(0); // Resetear contador del carrito
     setUserMenuOpen(false);
     navigate('/');
   };
