@@ -5,6 +5,7 @@ import ImpactBar from "../components/eco/ImpactBar";
 import SustainabilityScore from '../components/eco/SustainabilityScore'
 import CertificationList from "../components/eco/CertificationList";
 import {Footer} from "../components/layout/Footer";
+import EcoRecommendations from "../components/eco/ecoRecommendations";
 
   /// Certificaciones de prueba
   const certifications= [
@@ -139,49 +140,46 @@ export default function ProductDetail() {
 
 
         {/* ---------- DETALLES DEL PRODUCTO ---------- */}
-<section className="bg-[var(--off-white)] p-6 ">
-  <h3 className="text-xl font-semibold text-[var(--primary-dark)] mb-4 flex items-center gap-2">
-    Detalles del producto
-  </h3>
+        <section className="bg-[var(--off-white)] p-6 ">
+          <h3 className="text-xl font-semibold text-[var(--primary-dark)] mb-4 flex items-center gap-2">
+            Detalles del producto
+          </h3>
 
-  <div className="grid grid-cols-1 gap-2 text-gray-700 text-sm">
-    <p>
-      <span className="font-medium text-gray-900">Categoría:</span>{" "}
-      {product.category}
-    </p>
-    <p>
-      <span className="font-medium text-gray-900">Origen:</span>{" "}
-      {product.originCountry}
-    </p>
-    <p>
-      <span className="font-medium text-gray-900">Materiales:</span>{" "}
-      {product.materials}
-    </p>
-    <p>
-      <span className="font-medium text-gray-900">Stock disponible:</span>{" "}
-      {product.stock}
-    </p>
-  </div>
-</section>
+          <div className="grid grid-cols-1 gap-2 text-gray-700 text-sm">
+            <p>
+              <span className="font-medium text-gray-900">Categoría:</span>{" "}
+              {product.category}
+            </p>
+            <p>
+              <span className="font-medium text-gray-900">Origen:</span>{" "}
+              {product.originCountry}
+            </p>
+            <p>
+              <span className="font-medium text-gray-900">Materiales:</span>{" "}
+              {product.materials}
+            </p>
+            <p>
+              <span className="font-medium text-gray-900">Stock disponible:</span>{" "}
+              {product.stock}
+            </p>
+          </div>
+        </section>
 
+        {/* ---------- CERTIFICACIONES ---------- */}
+        <section className="my-10 px-6">
+          {/* <CertificationList certifications={product.certifications || []} /> */}
+          <CertificationList certifications={certifications} />
+        </section>
 
+        {/* ---------- GRÁFICO DE SOSTENIBILIDAD ---------- */}
+        <section className="mt-20 ">
 
-{/* ---------- CERTIFICACIONES ---------- */}
-<section className="my-10 px-6">
-  {/* <CertificationList certifications={product.certifications || []} /> */}
-  <CertificationList certifications={certifications} />
-</section>
+            <SustainabilityScore ecoScore={ecoScore} />
 
-
-
-{/* ---------- GRÁFICO DE SOSTENIBILIDAD ---------- */}
-<section className="mt-20 ">
-
-    <SustainabilityScore ecoScore={ecoScore} />
-
-</section>
-
-
+        </section>
+        
+        {/* ---------- RECOMEDACIONES SUSTENTABLES ---------- */}
+        <EcoRecommendations currentProductId={id} />
 
       </main>
 
