@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { ShoppingBag, ChevronRight, ChevronLeft } from "lucide-react";
 import { AlphabetFilter } from "../components/common/AlphabetFilter";
@@ -248,11 +249,9 @@ const Catalog = () => {
 
   return (
     <div className="bg-[var(--off-white)] min-h-screen flex flex-col">
-      
       {/* 1. SECCIÓN DE ENCABEZADO */}
       <div className="mx-auto max-w-2xl px-4 pt-16 pb-8 sm:px-6 lg:max-w-7xl lg:px-8">
         <div className="text-center max-w-3xl mx-auto">
-
           <h2 className="text-5xl font-extrabold tracking-tight text-[var(--secondary-dark)] mb-6">
             Explora nuestro Catálogo
           </h2>
@@ -271,10 +270,9 @@ const Catalog = () => {
 
       {/* 2. BLOQUE DE FILTROS Y RESULTADOS (FULL WIDTH) */}
       <div className="w-full bg-white shadow-sm border-y border-[var(--border-light)]">
-        
         {/* Filtro Alfabético */}
         <div className="border-b border-[var(--border-light)]">
-           <AlphabetFilter
+          <AlphabetFilter
             items={products}
             selectedLetter={selectedLetter}
             onLetterChange={handleLetterChange}
@@ -294,7 +292,6 @@ const Catalog = () => {
 
       {/* 3. CONTENIDO PRINCIPAL: GRILLA */}
       <div className="flex-grow mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8 py-8 w-full">
-        
         {/* RESULTADOS */}
         {filteredProducts.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-lg shadow-sm border border-[var(--border-light)] mt-8">
@@ -338,13 +335,7 @@ const Catalog = () => {
                         {product.category}
                       </p>
                       <h3 className="text-sm font-semibold text-[var(--text-dark)] mt-1 line-clamp-1">
-                        <a href="#">
-                          <span
-                            aria-hidden="true"
-                            className="absolute inset-0"
-                          />
-                          {product.name}
-                        </a>
+                        {product.name}
                       </h3>
 
                       <p className="text-xs text-[var(--text-light)] mt-1 font-medium">
@@ -358,10 +349,14 @@ const Catalog = () => {
                   </div>
 
                   <div className="mt-4">
-                    <button className="w-full flex items-center justify-center rounded-md bg-[var(--primary-light)] px-3 py-2 text-sm font-medium text-[var(--secondary-darker)] opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100 hover:bg-[var(--primary-medium)]">
+                    {/* Reemplazamos <button> por <Link> */}
+                    <Link
+                      to={`/product/${product.id}`}
+                      className="w-full flex items-center justify-center rounded-md bg-[var(--primary-light)] px-3 py-2 text-sm font-medium text-[var(--secondary-darker)] opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100 hover:bg-[var(--primary-medium)]"
+                    >
                       <ShoppingBag className="mr-2 h-4 w-4" />
                       Ver Detalles
-                    </button>
+                    </Link>
                   </div>
                 </div>
               ))}
