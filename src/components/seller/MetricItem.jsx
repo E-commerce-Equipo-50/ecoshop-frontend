@@ -167,7 +167,10 @@ const MetricItem = ({ metric, index, onRemove, onEdit }) => {
             <div>
               <span className="font-medium">Impacto:</span> 
               <span className={`font-semibold ml-1 ${isPositive ? 'text-green' : 'text-red-600'}`}>
-                {isPositive ? '↓' : '↑'} {Math.abs(reduction)}%
+                {isRecycled 
+                  ? (isPositive ? '↑' : '↓') 
+                  : (isPositive ? '↓' : '↑')
+                } {Math.abs(reduction)}{isRecycled ? '' : '%'}
               </span>
             </div>
           </div>
