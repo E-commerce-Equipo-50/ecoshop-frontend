@@ -88,7 +88,10 @@ const SellerDashboard = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex space-x-8" aria-label="Tabs">
             <button
-              onClick={() => setActiveTab('productos')}
+              onClick={() => {
+                setActiveTab('productos');
+                setProductToEdit(null); // Limpiar producto en edición al volver a la pestaña
+              }}
               className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === 'productos'
                   ? 'border-green text-green'

@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { updateProduct } from '../../lib/api';
+import { useState, useEffect } from 'react';
+import { updateProduct, getProductMetrics, createMetric, updateMetric, deleteMetric } from '../../lib/api';
 import ProductFormFields from './shared/ProductFormFields';
+import MetricsSection from './MetricsSection';
 import { SuccessMessage, ErrorMessage, InfoMessage } from './shared/FormMessage';
 
 const ProductEditForm = ({ product, onEditSuccess }) => {
@@ -27,6 +28,40 @@ const ProductEditForm = ({ product, onEditSuccess }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
+  // Estados para métricas
+  const [loadingMetrics, setLoadingMetrics] = useState(true);
+  const [metrics, setMetrics] = useState([]);
+  const [showMetricsSection, setShowMetricsSection] = useState(false);
+
+  // Cargar métricas al montar el componente
+  useEffect(() => {
+    const loadMetrics = async () => {
+      try {
+        setLoadingMetrics(true);
+        const productId = product.id || product._id;
+        const metricsData = await getProductMetrics(productId);
+        
+        // Verificar formato de respuesta
+        const metricsArray = Array.isArray(metricsData) ? metricsData : 
+                           (metricsData.metrics || metricsData.data || []);
+        
+        setMetrics(metricsArray);
+        
+        // Si hay métricas, expandir la sección
+        if (metricsArray.length > 0) {
+          setShowMetricsSection(true);
+        }
+      } catch (err) {
+        console.error('Error al cargar métricas:', err);
+        setMetrics([]);
+      } finally {
+        setLoadingMetrics(false);
+      }
+    };
+
+    loadMetrics();
+  }, [product]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -35,6 +70,67 @@ const ProductEditForm = ({ product, onEditSuccess }) => {
     }));
     setError('');
     setSuccess(false);
+  };
+
+  // Handlers para métricas
+  const handleAddMetric = async (metric) => {
+    try {
+      const productId = product.id || product._id;
+      
+      // Crear la métrica en el backend
+      const response = await createMetric({
+        productId: productId,
+        ...metric
+      });
+
+      // Recargar métricas
+      const metricsData = await getProductMetrics(productId);
+      const metricsArray = Array.isArray(metricsData) ? metricsData : 
+                         (metricsData.metrics || metricsData.data || []);
+      setMetrics(metricsArray);
+      
+    } catch (err) {
+      setError(`Error al agregar métrica: ${err.message}`);
+    }
+  };
+
+  const handleRemoveMetric = async (index) => {
+    try {
+      const metric = metrics[index];
+
+      // Obtener ID de la métrica
+      const metricId = metric.id || metric._id;
+      
+      if (!metricId) {
+        throw new Error('ID de métrica no encontrado');
+      }
+
+      // Eliminar del backend
+      await deleteMetric(metricId);
+
+      // Actualizar lista local
+      setMetrics(prev => prev.filter((_, i) => i !== index));
+      
+    } catch (err) {
+      setError(`Error al eliminar métrica: ${err.message}`);
+    }
+  };
+
+  const handleEditMetric = async (metricId, metricData) => {
+    try {
+      // Actualizar en el backend
+      await updateMetric(metricId, metricData);
+
+      // Recargar métricas para reflejar cambios
+      const productId = product.id || product._id;
+      const metricsData = await getProductMetrics(productId);
+      const metricsArray = Array.isArray(metricsData) ? metricsData : 
+                         (metricsData.metrics || metricsData.data || []);
+      setMetrics(metricsArray);
+      
+    } catch (err) {
+      setError(`Error al actualizar métrica: ${err.message}`);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -55,6 +151,11 @@ const ProductEditForm = ({ product, onEditSuccess }) => {
 
       if (parseInt(formData.stock) < 0) {
         throw new Error('El stock no puede ser negativo');
+      }
+
+      // Validación de métrica CO2 obligatoria
+      if (!metrics.some(m => m.type === 'CO2')) {
+        throw new Error('El producto debe tener al menos la métrica de CO2');
       }
 
       // Preparar datos del producto
@@ -105,10 +206,29 @@ const ProductEditForm = ({ product, onEditSuccess }) => {
         {/* Campos del formulario reutilizables */}
         <ProductFormFields formData={formData} onChange={handleChange} />
 
-        {/* Nota informativa */}
+        {/* Sección de métricas */}
+        <div className="pt-6 border-t border-gray-200">
+          {loadingMetrics ? (
+            <div className="text-center py-4">
+              <i className="fa-solid fa-spinner fa-spin text-green text-2xl"></i>
+              <p className="text-gray-600 mt-2">Cargando métricas...</p>
+            </div>
+          ) : (
+            <MetricsSection
+              metrics={metrics}
+              onAddMetric={handleAddMetric}
+              onRemoveMetric={handleRemoveMetric}
+              onEditMetric={handleEditMetric}
+              isExpanded={showMetricsSection}
+              onToggle={() => setShowMetricsSection(!showMetricsSection)}
+            />
+          )}
+        </div>
+
+        {/* Nota informativa sobre certificaciones */}
         <InfoMessage
-          title="Nota sobre métricas y certificaciones"
-          message="Las métricas de impacto y certificaciones del producto no pueden ser modificadas desde aquí. Solo puedes editar la información básica del producto."
+          title="Nota sobre certificaciones"
+          message="Las certificaciones del producto no pueden ser modificadas después de la creación. Solo puedes editar la información básica y las métricas de impacto."
         />
 
         {/* Botón de envío */}
