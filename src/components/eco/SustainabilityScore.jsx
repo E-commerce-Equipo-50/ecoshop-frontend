@@ -3,6 +3,10 @@ import { useEffect, useRef, memo } from "react";
 function SustainabilityScore({ ecoScore }) {
   const canvasRef = useRef(null);
 
+  // Busco las metricas de CO2 y ENERGY
+  const co2Metric = ecoScore?.metrics?.find(m => m.type === "CO2");
+  const energyMetric = ecoScore?.metrics?.find(m => m.type === "ENERGY");
+
   // --- Si no hay ecoScore o no tiene métricas: mostrar fallback ---
   if (!ecoScore?.metrics || ecoScore.metrics.length === 0) {
     return (
@@ -19,7 +23,7 @@ function SustainabilityScore({ ecoScore }) {
 
   //Configuracion del grafico
   useEffect(() => {
-    if (!ecoScore?.metrics) return;
+    if (!canvasRef.current) return;
 
     const labels = ecoScore.metrics.map(m => m.type);
     const data = ecoScore.metrics.map(m => m.weight);
@@ -65,29 +69,27 @@ function SustainabilityScore({ ecoScore }) {
     });
 
     return () => chart.destroy();
-  }, [ecoScore]);
+  }, [ecoScore.metrics]);
 
-  // Busco las metricas de CO2 y de ENERGY
-  const co2Metric = ecoScore.metrics.find(m => m.type === "CO2");
-  const energyMetric = ecoScore.metrics.find(m => m.type === "ENERGY");
-
-  // Fallback por si faltan métricas de CO2 o ENERGY
-  if (!co2Metric || !energyMetric) {
+  // Fallback: si no hay CO2, mostrar mensaje
+  if (!co2Metric) {
     return (
       <div className="p-4 rounded-xl bg-[var(--white)] text-[var(--text-dark)] border border-gray-200 shadow-sm w-full max-w-xl mx-auto">
         <h3 className="font-semibold text-lg mb-2">Nuestra Huella Ambiental</h3>
         <hr className="mb-4 border-2 border-[var(--primary-medium)]" />
         <p className="text-sm text-[var(--text-light)]">
-          Este producto no tiene suficientes métricas ambientales para mostrar su impacto.
+          Este producto no tiene métricas de carbono disponibles.
         </p>
       </div>
     );
   }
 
-  // 0.012 kWh ≈ 1 carga de móvil
-  const energyPerPhoneCharge = 0.012;
-  // Calculo la cantidad de cargas de moviles equivalente
-  const chargesEquivalent = Math.round(energyMetric.value / energyPerPhoneCharge);
+  // Cálculo condicional: solo si existe ENERGY
+  let chargesEquivalent = null;
+  if (energyMetric) {
+    const energyPerPhoneCharge = 0.012;
+    chargesEquivalent = Math.round(energyMetric.value / energyPerPhoneCharge);
+  }
 
   return (
     <div className="p-4 rounded-xl bg-[var(--white)] text-[var(--text-dark)] border border-gray-200 shadow-sm w-full max-w-xl mx-auto">
@@ -95,22 +97,34 @@ function SustainabilityScore({ ecoScore }) {
       <h3 className="font-semibold text-lg mb-2">
         Nuestra Huella Ambiental
       </h3>
-      <hr className="mb-4 border-2 border-[var(--primary-medium)] "/>
+      <hr className="mb-4 border-2 border-[var(--primary-medium)]" />
 
       <div className="flex flex-col md:flex-row items-center font-[var(--font-title)] justify-between gap-4">
-        
         {/* Lado izquierdo: texto */}
-        <div className="flex flex-col  justify-between gap-5"> 
+        <div className="flex flex-col justify-between gap-5">
           <h3 className="font-bold text-2xl leading-tight">
-            {co2Metric.value} kg CO₂eq
+            {co2Metric.value} kg CO₂
           </h3>
           <p className="text-sm text-[var(--text-light)]">
             Huella de carbono estimada
           </p>
-          <p className="text-sm mt-3">
-            El impacto total equivale a la energía<br />
-            para cargar tu móvil <span className="font-semibold text-[var(--primary-dark)]">*{chargesEquivalent} veces</span>.
-          </p>
+
+          {/* ✅ Renderizado condicional para ENERGY */}
+          {energyMetric && chargesEquivalent !== null ? (
+            <p className="text-sm mt-3">
+              El impacto total equivale a la energía
+              <br />
+              para cargar tu móvil{" "}
+              <span className="font-semibold text-[var(--primary-dark)]">
+                *{chargesEquivalent} veces
+              </span>
+              .
+            </p>
+          ) : (
+            <p className="text-sm mt-3 text-[var(--text-light)]">
+              Sin datos de energía disponibles.
+            </p>
+          )}
         </div>
 
         {/* Lado derecho: Chart */}
