@@ -15,6 +15,7 @@ export const API_BASE_URL = USE_LOCAL_BACKEND
 export const ENDPOINTS = {
   // Productos
   PRODUCTS: '/Productos',
+  CREATE_PRODUCT: '/productos',
   
   // Autenticación - Cliente
   CLIENT_REGISTER: '/cliente/registro',
@@ -23,4 +24,10 @@ export const ENDPOINTS = {
   // Autenticación - Vendedor/Marca
   SELLER_REGISTER: '/marcas/registro',
   SELLER_LOGIN: '/marcas/login',
+  
+  // Métricas e Impacto
+  IMPACT: '/impacto',
+  
+  // Certificaciones
+  CERTIFICATIONS: '/certificaciones',
 };
