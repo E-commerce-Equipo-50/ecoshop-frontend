@@ -1,7 +1,7 @@
 import React from 'react';
-import { Trash2, Leaf } from 'lucide-react';
+import { Leaf } from 'lucide-react';
 
-const CartItem = ({ product, onQuantityChange, onRemove }) => {
+const CartItem = ({ product }) => {
   return (
     <li className="flex py-6 px-6 sm:py-10 sm:px-10">
       {/* Imagen */}
@@ -39,38 +39,15 @@ const CartItem = ({ product, onQuantityChange, onRemove }) => {
             </p>
           </div>
 
-          <div className="mt-4 sm:mt-0 sm:pr-9">
-            {/* Selector de Cantidad */}
-            <label htmlFor={`quantity-${product.id}`} className="sr-only">
-              Cantidad, {product.name}
-            </label>
-            <select
-              id={`quantity-${product.id}`}
-              name={`quantity-${product.id}`}
-              value={product.quantity}
-              onChange={(e) => onQuantityChange(e.target.value)}
-              // Bordes y textos con las variables. Focus ring en primary-medium
-              className="max-w-full rounded-md border border-[var(--border-light)] py-1.5 text-left text-base font-medium leading-5 text-[var(--text-dark)] shadow-sm focus:border-[var(--primary-medium)] focus:outline-none focus:ring-1 focus:ring-[var(--primary-medium)] sm:text-sm"
-              disabled={!product.inStock}
-            >
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
-            </select>
-
-            {/* Botón Eliminar */}
-            <div className="absolute right-0 top-0">
-              <button
-                type="button"
-                onClick={onRemove}
-                // Icono en --text-light y hover en rojo
-                className="-m-2 inline-flex p-2 text-[var(--text-light)] hover:text-red-500 transition-colors"
-              >
-                <span className="sr-only">Eliminar</span>
-                <Trash2 className="h-5 w-5" aria-hidden="true" />
-              </button>
+          <div className="mt-4 sm:mt-0">
+            {/* Cantidad */}
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-[var(--text-light)]">
+                Cantidad:
+              </span>
+              <span className="text-base font-medium text-[var(--text-dark)]">
+                {product.quantity}
+              </span>
             </div>
           </div>
         </div>
