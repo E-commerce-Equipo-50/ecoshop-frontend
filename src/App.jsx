@@ -11,6 +11,7 @@ import UserRegister from "./pages/auth/UserRegister"
 import ProductDetail from "./pages/ProductDetail"
 import VistaMarca from './pages/VistaMarca'
 import SellerDashboard from './pages/SellerDashboard'
+import Profile from './pages/Profile'
 
 export const App = () => {
   const location = useLocation();
@@ -31,6 +32,7 @@ export const App = () => {
         <Route path="/register-company" element={<AdminRegister />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/seller-dashboard" element={<SellerDashboard />} />
+        <Route path="/profile" element={<Profile />} />
         
       </Routes>
     </>
