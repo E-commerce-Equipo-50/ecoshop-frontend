@@ -223,14 +223,25 @@ export default function Navbar() {
                   className="absolute right-0 top-10 w-56 bg-[var(--white)] border border-[var(--border-light)] rounded-lg shadow-md z-40"
                 >
                   {isLoggedIn ? (
-                    // Usuario logueado - Mostrar solo Cerrar sesión
-                    <button
-                      onClick={handleLogout}
-                      role="menuitem"
-                      className="focus-ring w-full text-left block px-4 py-2 text-[var(--text-dark)] hover:bg-[var(--off-white)]"
-                    >
-                      Cerrar sesión
-                    </button>
+                    // Usuario logueado - Mostrar Mi Perfil y Cerrar sesión
+                    <>
+                      <Link
+                        to="/profile"
+                        role="menuitem"
+                        className="focus-ring block px-4 py-2 text-[var(--text-dark)] hover:bg-[var(--off-white)]"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        Mi Perfil
+                      </Link>
+                      <div className="border-t my-2"></div>
+                      <button
+                        onClick={handleLogout}
+                        role="menuitem"
+                        className="focus-ring w-full text-left block px-4 py-2 text-[var(--text-dark)] hover:bg-[var(--off-white)]"
+                      >
+                        Cerrar sesión
+                      </button>
+                    </>
                   ) : (
                     // Usuario NO logueado - Mostrar opciones de login
                     loginLinks.map((item) => (
@@ -287,11 +298,18 @@ export default function Navbar() {
 
                 <div className="mt-6 border-t pt-4">
                   {isLoggedIn ? (
-                    // Usuario logueado - Solo mostrar cerrar sesión
+                    // Usuario logueado - Mostrar Mi Perfil y Cerrar sesión
                     <>
                       <p className="text-[var(--text-light)] text-sm mb-2">
-                        Sesión
+                        Mi cuenta
                       </p>
+                      <Link
+                        to="/profile"
+                        onClick={() => setMobileOpen(false)}
+                        className="focus-ring block text-[var(--text-dark)] active:font-semibold p-4 transition"
+                      >
+                        Mi Perfil
+                      </Link>
                       <button
                         onClick={handleLogout}
                         className="focus-ring block text-[var(--text-dark)] active:font-semibold p-4 transition w-full text-left"
@@ -331,6 +349,7 @@ export default function Navbar() {
                       ))}
                     </>
                   )}
+
                   <div className="mt-6 border-t pt-4">
                     <p className="text-[var(--text-light)] text-sm mb-2">
                       Carrito
