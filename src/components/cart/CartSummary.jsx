@@ -1,8 +1,12 @@
-import React, { useMemo } from "react";
-import { Link } from "react-router-dom";
+import React, { useMemo, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../config/api";
 
 // 1. AÑADIMOS "totalCo2Savings" PARA RECIBIR EL DATO
 const CartSummary = ({ items = [], totalCo2Savings = 0 }) => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   // Calculamos subtotal solo con productos en stock
   const subtotal = useMemo(() => {
     return items
@@ -14,15 +18,129 @@ const CartSummary = ({ items = [], totalCo2Savings = 0 }) => {
   const tax = subtotal * 0.08; // 8% de impuestos
   const total = subtotal + shipping + tax;
 
+  // ---------- Checkout handler ----------
+  const handleCheckout = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("accessToken");
+      if (!token) return navigate("/login-client");
+
+      // 1) crear orden
+      const createOrderResp = await fetch(`${API_BASE_URL}/ordenes`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({}),
+      });
+      const createOrderData = await createOrderResp.json().catch(() => null);
+      console.log(
+        "[checkout] createOrderResp",
+        createOrderResp.status,
+        createOrderData
+      );
+
+      const orderId =
+        createOrderData?.order?.id ??
+        createOrderData?.order?._id ??
+        createOrderData?.orderId ??
+        createOrderData?.id ??
+        createOrderData?._id;
+      if (!orderId) throw new Error("No orderId from create order");
+
+      // 2) preparar payload para session exactamente como tu backend pide
+      const payloadItems = items.map((it) => ({
+        name: it.name,
+        unit_amount: Math.round((it.price ?? 0) * 100),
+        quantity: it.quantity ?? 1,
+        currency: "eur",
+      }));
+      const successUrl = `${window.location.origin}/ordenes/${orderId}/success`;
+      const cancelUrl = `${window.location.origin}/ordenes/${orderId}/cancel`;
+
+      const sessionResp = await fetch(
+        `${API_BASE_URL}/stripe/create-checkout-session`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            items: payloadItems,
+            successUrl,
+            cancelUrl,
+            orderId,
+          }),
+        }
+      );
+
+      // parse body (puede ser objeto complejo)
+      const sessionData = await sessionResp.json().catch(() => null);
+      console.log(
+        "[checkout] sessionResp status:",
+        sessionResp.status,
+        "body:",
+        sessionData
+      );
+
+      if (!sessionResp.ok) {
+        throw new Error(
+          sessionData?.message ||
+            sessionData?.error ||
+            `Error creating session (${sessionResp.status})`
+        );
+      }
+
+      // 3) Extraer la URL de pago — probamos varias opciones habituales
+      console.log("[checkout] raw sessionData:", sessionData);
+
+      const checkoutUrl =
+        sessionData?.data?.url ?? // <- tu caso actual: sessionData.data.url
+        sessionData?.data?.checkoutUrl ??
+        sessionData?.url ??
+        sessionData?.checkoutUrl ??
+        sessionData?.session?.url ??
+        sessionData?.sessionUrl ??
+        // fallback: si solo dan sessionId -> construir URL de Stripe
+        (sessionData?.data?.sessionId
+          ? `https://checkout.stripe.com/pay/${sessionData.data.sessionId}`
+          : undefined) ??
+        (sessionData?.id
+          ? `https://checkout.stripe.com/pay/${sessionData.id}`
+          : undefined);
+
+      if (!checkoutUrl) {
+        console.error(
+          "[checkout] No checkout URL found in sessionData. Raw response:",
+          sessionData
+        );
+        throw new Error(
+          "El servidor no devolvió la URL de pago. Mira la consola para más detalles."
+        );
+      }
+
+      // redirigir
+      window.location.href = checkoutUrl;
+
+      // 4) Redirigir al usuario a Stripe Checkout
+      window.location.href = checkoutUrl;
+    } catch (err) {
+      console.error("[checkout] Error final:", err);
+      alert("No se pudo iniciar el pago: " + (err.message || err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section
       aria-labelledby="summary-heading"
-      className="mt-16 rounded-lg bg-[var(--off-white)] px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8 border border-[var(--border-light)] shadow-sm"
-    >
+      className="mt-16 rounded-lg bg-[var(--off-white)] px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8 border border-[var(--border-light)] shadow-sm">
       <h2
         id="summary-heading"
-        className="text-lg font-medium text-[var(--text-dark)]"
-      >
+        className="text-lg font-medium text-[var(--text-dark)]">
         Resumen de la orden
       </h2>
 
@@ -68,15 +186,15 @@ const CartSummary = ({ items = [], totalCo2Savings = 0 }) => {
 
       <div className="mt-6">
         <button
-          type="submit"
-          disabled={subtotal === 0}
+          onClick={handleCheckout}
+          type="button"
+          disabled={subtotal === 0 || loading}
           className={`w-full rounded-md border border-transparent px-4 py-3 text-base font-medium text-white shadow-sm transition-colors duration-200 ${
             subtotal === 0
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-[var(--primary-medium)] hover:bg-[var(--primary-light)]"
-          }`}
-        >
-          Pagar
+          } ${loading ? "opacity-75" : ""}`}>
+          {loading ? "Redirigiendo a pago..." : "Pagar"}
         </button>
       </div>
 
@@ -85,8 +203,7 @@ const CartSummary = ({ items = [], totalCo2Savings = 0 }) => {
           o{" "}
           <Link
             to="/catalog"
-            className="font-medium text-[var(--primary-medium)] hover:text-[var(--primary-light)] transition-colors"
-          >
+            className="font-medium text-[var(--primary-medium)] hover:text-[var(--primary-light)] transition-colors">
             Continuar comprando
             <span aria-hidden="true"> &rarr;</span>
           </Link>
@@ -103,8 +220,7 @@ const CartSummary = ({ items = [], totalCo2Savings = 0 }) => {
                 className="h-6 w-6 text-green-600"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
+                stroke="currentColor">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
