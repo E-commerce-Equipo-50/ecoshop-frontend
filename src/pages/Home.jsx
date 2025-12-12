@@ -54,7 +54,6 @@ export const Home = () => {
     }
   ];
 
-
   return (
     <div className='Home'>
       <Hero/>
@@ -184,11 +183,11 @@ export const Home = () => {
           </div>
         </div>
       </section>
-     
+
       {/* Sección: Contenido Educativo */}
-      <section className="py-16 bg-lightgreen">
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center title-darkgreen mb-12">
+          <h2 className="text-3xl font-bold text-center title-green mb-12">
             Aprende sobre consumo responsable
           </h2>
 
@@ -196,7 +195,7 @@ export const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
 
             {/* Video 1 */}
-            <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div className="bg-lightgreen rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
               <div className="relative h-56 bg-green flex items-center justify-center">
                 <iframe
                   className="w-full h-full"
@@ -217,7 +216,7 @@ export const Home = () => {
             </div>
 
             {/* Video 2 */}
-            <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div className="bg-lightgreen rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
               <div className="relative h-56 bg-green flex items-center justify-center">
                 <iframe
                   className="w-full h-full"
