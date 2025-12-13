@@ -66,7 +66,7 @@ const AdminRegister = () => {
             <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-6">
               <img
                 alt="EcoShop Logo"
-                src="src/assets/home.png"
+                src="/assets/home-BX9zhQRJ.png"
                 className="mx-auto h-16 w-auto"
               />
             </div>
