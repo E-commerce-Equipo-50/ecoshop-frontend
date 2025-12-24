@@ -12,6 +12,7 @@ import ProductDetail from "./pages/ProductDetail"
 import VistaMarca from './pages/VistaMarca'
 import SellerDashboard from './pages/SellerDashboard'
 import Profile from './pages/Profile'
+import OrderSuccess from './pages/OrderSuccess';
 
 export const App = () => {
   const location = useLocation();
@@ -33,6 +34,7 @@ export const App = () => {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/seller-dashboard" element={<SellerDashboard />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/ordenes/:id/success" element={<OrderSuccess />} />
         
       </Routes>
     </>
